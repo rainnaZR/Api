@@ -1,0 +1,184 @@
+/* 基础样式 */
+/* 间距类 */
+.f-mt5 {
+    margin-top: 5px;
+}
+.f-mt10 {
+    margin-top: 10px;
+}
+.f-mt15 {
+    margin-top: 15px;
+}
+.f-mt20 {
+    margin-top: 20px;
+}
+.f-mt30 {
+    margin-top: 30px;
+}
+.f-mt50 {
+    margin-top: 40px;
+}
+.f-ml5 {
+    margin-left: 5px;
+}
+.f-ml10 {
+    margin-left: 10px;
+}
+.f-ml15 {
+    margin-left: 15px;
+}
+.f-ml20 {
+    margin-left: 20px;
+}
+.f-ml25 {
+    margin-left: 25px;
+}
+.f-mr5 {
+    margin-right: 5px;
+}
+.f-mr10 {
+    margin-right: 10px;
+}
+.f-mr15 {
+    margin-right: 15px;
+}
+.f-mr20 {
+    margin-right: 20px;
+}
+.f-mr25 {
+    margin-right: 25px;
+}
+.f-mr50 {
+    margin-right: 50px;
+}
+.f-mr80 {
+    margin-right: 80px;
+}
+.f-mb10 {
+    margin-bottom: 10px;
+}
+.f-mb15 {
+    margin-bottom: 15px;
+}
+.f-mb20 {
+    margin-bottom: 20px;
+}
+.f-mb30 {
+    margin-bottom: 30px;
+}
+.f-mb40 {
+    margin-bottom: 40px;
+}
+.f-mb50 {
+    margin-bottom: 50px;
+}
+.f-fw0 {
+    font-weight: bold;
+}
+.f-fw1 {
+    font-weight: normal;
+}
+.f-txtell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.f-curp {
+    cursor: pointer;
+}
+.f-tac {
+    text-align: center;
+}
+.f-tal {
+    text-align: left;
+}
+.f-tar {
+    text-align: right;
+}
+.f-db {
+    display: block;
+}
+.f-dib {
+    display: inline-block;
+}
+/* 皮肤类 */
+.s-fc0 {
+    color: #999;
+}
+.s-fc1 {
+    color: #20a0ff;
+}
+.s-fc2 {
+    color: #262626;
+}
+.s-fc3 {
+    color: #4d4d4d;
+}
+.s-fc4 {
+    color: #000;
+}
+.s-fc5 {
+    color: #ff4709;
+}
+/* 字体大小 */
+.f-fs12 {
+    font-size: 12px;
+}
+.f-fs14 {
+    font-size: 14px;
+}
+.f-fs16 {
+    font-size: 16px;
+}
+.f-fs18 {
+    font-size: 18px;
+}
+.f-fs20 {
+    font-size: 20px;
+}
+.f-fs24 {
+    font-size: 24px;
+}
+.f-fs34 {
+    font-size: 34px;
+}
+.f-fs50 {
+    font-size: 50px;
+}
+/* 动画类 */
+.f-trans {
+    transition: all 0.3s;
+}
+.f-anim {
+    animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.f-hdsrollbar::-webkit-scrollbar {
+    width: 0 !important;
+}
+.f-hdsrollbar {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+/* 布局类 */
+.f-flexr {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.f-flex-f1 {
+    flex: 1;
+}
+.f-boxsd {
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.01),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.04),
+        0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+}

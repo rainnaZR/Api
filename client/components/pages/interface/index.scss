@@ -1,0 +1,17 @@
+.m-interface {
+    .m-content {
+        align-items: baseline;
+    }
+    .m-side {
+        width: 280px;
+        overflow-y: scroll;
+    }
+    .el-tree-node__content {
+        .opts {
+            opacity: 0;
+        }
+        &:hover .opts {
+            opacity: 1;
+        }
+    }
+}

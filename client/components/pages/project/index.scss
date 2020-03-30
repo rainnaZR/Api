@@ -1,0 +1,43 @@
+.m-project {
+    .header {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .content {
+        flex-wrap: wrap;
+        justify-content: left;
+    }
+    .item {
+        position: relative;
+        width: 238px;
+        padding: 30px 20px;
+        margin: 0 10px 25px;
+        border: 1px solid #eee;
+        background: #f7f7f7;
+        text-align: center;
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            border-radius: 100px;
+            background: #20a0ff;
+            color: #fff;
+            line-height: 100px;
+            font-size: 40px;
+        }
+        .operation {
+            position: absolute;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        &:hover {
+            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.1),
+                0px 4px 5px 0px rgba(0, 0, 0, 0.04),
+                0px 1px 10px 0px rgba(0, 0, 0, 0.08);
+            .operation {
+                opacity: 1;
+            }
+        }
+    }
+}
