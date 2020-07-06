@@ -3,7 +3,7 @@ let interfaceController = require("../../controller/interface");
 module.exports = [
     {
         method: "post",
-        path: "/interfaces",
+        path: "/interface",
         controller: interfaceController.add
     }
 ];

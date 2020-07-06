@@ -7,16 +7,22 @@ import "./index.scss";
 
 export default function() {
     return (
-        <Router>
-            <Header />
-            <div className="m-main">
-                <Switch>
-                    {routes.map((route, i) => (
-                        <RouteWithSubRoutes key={i} {...route} />
-                    ))}
-                </Switch>
-            </div>
-            <Footer />
-        </Router>
+        <div className="g-body">
+            <Router>
+                <div className="g-header">
+                    <Header />
+                </div>
+                <div className="g-main">
+                    <Switch>
+                        {routes.map((route, i) => (
+                            <RouteWithSubRoutes key={i} {...route} />
+                        ))}
+                    </Switch>
+                </div>
+                <div className="g-footer">
+                    <Footer />
+                </div>
+            </Router>
+        </div>
     );
 }

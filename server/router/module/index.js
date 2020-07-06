@@ -3,27 +3,27 @@ let moduleController = require("../../controller/module");
 module.exports = [
     {
         method: "post",
-        path: "/modules",
+        path: "/module",
         controller: moduleController.add
     },
     {
         method: "get",
-        path: "/modules",
+        path: "/module",
         controller: moduleController.list
     },
     {
         method: "get",
-        path: "/modules/:id",
+        path: "/module/:id",
         controller: moduleController.detail
     },
     {
         method: "put",
-        path: "/modules/:id",
+        path: "/module/:id",
         controller: moduleController.update
     },
     {
         method: "delete",
-        path: "/modules/:id",
+        path: "/module/:id",
         controller: moduleController.del
     }
 ];
