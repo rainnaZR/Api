@@ -79,7 +79,7 @@ const update = val => {
 const del = val => {
     const { id } = val;
     const sql = "update tbl_api_module set module_status = ? where id = ?";
-    return query(sql, [STATUS.INVALID, id]);
+    return query(sql, [STATUS.INVALID, id]).then(res => {});
 };
 
 module.exports = {
