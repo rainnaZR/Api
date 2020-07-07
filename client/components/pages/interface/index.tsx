@@ -31,12 +31,13 @@ interface State {
     modalShow?: any;
     modelTitle?: string;
     mainTitle?: string;
+    mainPageType?: string;
     treeData?: Array<TreeInterface>;
     treeOptions?: TreeOptionsInterface;
-    moduleForm?: any;
-    moduleFormRules?: any;
-    interfaceForm?: any;
-    interfaceFormRules?: any;
+    moduleForm?: Module.Form | any;
+    moduleFormRules?: Module.FormRules;
+    interfaceForm?: Interface.Form | any;
+    interfaceFormRules?: Interface.FormRules;
     methods: Array<string>;
 }
 interface TreeInterface {
@@ -59,6 +60,7 @@ class Index extends React.Component<Props, State> {
             modalShow: false,
             modelTitle: "新增模块",
             mainTitle: "新增接口",
+            mainPageType: "",
             treeData: [],
             treeOptions: {
                 children: "children",
@@ -164,7 +166,7 @@ class Index extends React.Component<Props, State> {
 
     // 模块信息提交
     doModuleSubmit() {
-        const formData = this.state.moduleForm;
+        const formData: any = this.state.moduleForm;
         const projectId = this.state.projectId;
         if (formData.id) {
             // 更新模块
@@ -245,6 +247,18 @@ class Index extends React.Component<Props, State> {
         );
     }
 
+    // 新增接口
+    onAddInterface(store: any, data: any, event?: any) {
+        event?.stopPropagation();
+        this.setState({
+            mainTitle: "新增接口",
+            mainPageType: "addInterface",
+            interfaceForm: {
+                moduleId: data.id
+            }
+        });
+    }
+
     // 接口信息提交
     onInterfaceSubmit(e?: any) {
         e.preventDefault();
@@ -272,9 +286,115 @@ class Index extends React.Component<Props, State> {
         if (res.success) {
             Message.success("操作成功");
             this.getTreeList();
+            this.setState({
+                interfaceForm: {
+                    moduleId: "",
+                    label: "",
+                    requestUrl: "",
+                    requestMethod: "",
+                    requestParams: "",
+                    requestResponse: ""
+                }
+            });
         } else {
             Message.success("操作失败");
         }
+    }
+
+    // 获取新增接口template
+    getAddInterfaceTemplate(
+        interfaceForm: Interface.Form | any,
+        interfaceFormRules: Interface.FormRules | any,
+        methods: Array<string>
+    ) {
+        return (
+            <Form
+                ref="interfaceForm"
+                model={interfaceForm}
+                rules={interfaceFormRules}
+                labelWidth="120"
+            >
+                <Form.Item label="接口名称" prop="label">
+                    <Input
+                        value={interfaceForm.label}
+                        placeholder="请输入接口名称"
+                        onChange={this.onInterfaceChange.bind(this, "label")}
+                    ></Input>
+                </Form.Item>
+                <Form.Item label="接口路径" prop="requestUrl">
+                    <Input
+                        value={interfaceForm.requestUrl}
+                        placeholder="请输入接口路径"
+                        onChange={this.onInterfaceChange.bind(
+                            this,
+                            "requestUrl"
+                        )}
+                    ></Input>
+                </Form.Item>
+                <Form.Item label="接口类型" prop="requestMethod">
+                    <Select
+                        value={interfaceForm.requestMethod}
+                        placeholder="接口类型"
+                        onChange={this.onInterfaceChange.bind(
+                            this,
+                            "requestMethod"
+                        )}
+                    >
+                        {methods.map((method, index) => (
+                            <Select.Option
+                                key={index}
+                                label={method}
+                                value={method}
+                            ></Select.Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item label="传入参数" prop="requestParams">
+                    <Input
+                        type="textarea"
+                        value={interfaceForm.requestParams}
+                        placeholder="请输入入参"
+                        autosize={{
+                            minRows: 3,
+                            maxRows: 4
+                        }}
+                        onChange={this.onInterfaceChange.bind(
+                            this,
+                            "requestParams"
+                        )}
+                    ></Input>
+                </Form.Item>
+                <Form.Item label="返回值" prop="requestResponse">
+                    <Input
+                        type="textarea"
+                        value={interfaceForm.requestResponse}
+                        autosize={{
+                            minRows: 3,
+                            maxRows: 5
+                        }}
+                        placeholder="请输入返回值"
+                        onChange={this.onInterfaceChange.bind(
+                            this,
+                            "requestResponse"
+                        )}
+                    ></Input>
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" onClick={this.onInterfaceSubmit}>
+                        确 定
+                    </Button>
+                </Form.Item>
+            </Form>
+        );
+    }
+
+    // 接口数据变化
+    onInterfaceChange(key?: any, value?: any) {
+        this.setState({
+            interfaceForm: Object.assign(this.state.interfaceForm, {
+                [key]: value
+            })
+        });
     }
 
     // 删除接口
@@ -290,28 +410,6 @@ class Index extends React.Component<Props, State> {
                 content: "此操作将删除该接口, 是否继续?"
             }
         );
-    }
-
-    // 接口数据变化
-    onInterfaceChange(key?: any, value?: any) {
-        this.setState({
-            interfaceForm: Object.assign(this.state.interfaceForm, {
-                [key]: value
-            })
-        });
-    }
-
-    // 新增接口
-    onAddInterface(store: any, data: any, event?: any) {
-        event?.stopPropagation();
-        const formRef: any = this.refs.interfaceForm;
-        formRef.resetFields();
-        this.setState({
-            mainTitle: "新增接口",
-            interfaceForm: {
-                moduleId: data.id
-            }
-        });
     }
 
     onImport() {}
@@ -375,6 +473,7 @@ class Index extends React.Component<Props, State> {
             modalShow,
             modelTitle,
             mainTitle,
+            mainPageType,
             treeData,
             treeOptions,
             moduleForm,
@@ -427,103 +526,15 @@ class Index extends React.Component<Props, State> {
                                 {mainTitle}
                             </div>
                             <div className="content">
-                                <Form
-                                    ref="interfaceForm"
-                                    model={interfaceForm}
-                                    rules={interfaceFormRules}
-                                    labelWidth="120"
-                                >
-                                    <Form.Item label="接口名称" prop="label">
-                                        <Input
-                                            value={interfaceForm.label}
-                                            placeholder="请输入接口名称"
-                                            onChange={this.onInterfaceChange.bind(
-                                                this,
-                                                "label"
-                                            )}
-                                        ></Input>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="接口路径"
-                                        prop="requestUrl"
-                                    >
-                                        <Input
-                                            value={interfaceForm.requestUrl}
-                                            placeholder="请输入接口路径"
-                                            onChange={this.onInterfaceChange.bind(
-                                                this,
-                                                "requestUrl"
-                                            )}
-                                        ></Input>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="接口类型"
-                                        prop="requestMethod"
-                                    >
-                                        <Select
-                                            value={interfaceForm.requestMethod}
-                                            placeholder="接口类型"
-                                            onChange={this.onInterfaceChange.bind(
-                                                this,
-                                                "requestMethod"
-                                            )}
-                                        >
-                                            {methods.map((method, index) => (
-                                                <Select.Option
-                                                    key={index}
-                                                    label={method}
-                                                    value={method}
-                                                ></Select.Option>
-                                            ))}
-                                        </Select>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="传入参数"
-                                        prop="requestParams"
-                                    >
-                                        <Input
-                                            type="textarea"
-                                            value={interfaceForm.requestParams}
-                                            placeholder="请输入入参"
-                                            autosize={{
-                                                minRows: 3,
-                                                maxRows: 4
-                                            }}
-                                            onChange={this.onInterfaceChange.bind(
-                                                this,
-                                                "requestParams"
-                                            )}
-                                        ></Input>
-                                    </Form.Item>
-                                    <Form.Item
-                                        label="返回值"
-                                        prop="requestResponse"
-                                    >
-                                        <Input
-                                            type="textarea"
-                                            value={
-                                                interfaceForm.requestResponse
-                                            }
-                                            autosize={{
-                                                minRows: 3,
-                                                maxRows: 5
-                                            }}
-                                            placeholder="请输入返回值"
-                                            onChange={this.onInterfaceChange.bind(
-                                                this,
-                                                "requestResponse"
-                                            )}
-                                        ></Input>
-                                    </Form.Item>
-                                    <Form.Item>
-                                        <Button
-                                            type="primary"
-                                            onClick={this.onInterfaceSubmit}
-                                        >
-                                            确 定
-                                        </Button>
-                                    </Form.Item>
-                                </Form>
+                                {/* 新增接口页面 */}
+                                {mainPageType === "addInterface"
+                                    ? this.getAddInterfaceTemplate(
+                                          interfaceForm,
+                                          interfaceFormRules,
+                                          methods
+                                      )
+                                    : ""}
+                                {/* 编辑接口页面 */}
                             </div>
                         </div>
                     </div>
