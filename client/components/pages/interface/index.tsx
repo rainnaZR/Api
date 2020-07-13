@@ -147,6 +147,7 @@ class Index extends React.Component<Props, State> {
             modalShow: true,
             modelTitle: "新增模块",
             moduleForm: {
+                id: "",
                 label: "",
                 introduce: ""
             }
@@ -203,9 +204,9 @@ class Index extends React.Component<Props, State> {
     }
 
     // 编辑模块
-    onEditModule(store: any, data: any, event?: any) {
+    onEditModule(id: string | number, event?: any) {
         event?.stopPropagation();
-        const id = data.id;
+
         getModule({
             id
         }).then((res: any) => {
@@ -239,12 +240,13 @@ class Index extends React.Component<Props, State> {
     }
 
     // 删除模块
-    onDeleteModule(store: any, data: any, event?: any) {
+    onDeleteModule(id: string | number, event?: any) {
         event?.stopPropagation();
+
         this.onDelete(
             deleteModule,
             {
-                id: data.id
+                id
             },
             {
                 title: "提示",
@@ -254,13 +256,14 @@ class Index extends React.Component<Props, State> {
     }
 
     // 新增接口
-    onAddInterface(store: any, data: any, event?: any) {
+    onAddInterface(moduleId: string | number, event?: any) {
         event?.stopPropagation();
+
         this.setState({
             mainTitle: "新增接口",
             mainPageType: "addInterface",
             interfaceForm: {
-                moduleId: data.id
+                moduleId
             }
         });
     }
@@ -278,7 +281,7 @@ class Index extends React.Component<Props, State> {
     doInterfaceSubmit() {
         const projectId = this.state.projectId;
         const formData = this.state.interfaceForm;
-        let request = formData.id ? putInterface : postInterface;
+        const request = formData.id ? putInterface : postInterface;
         request({
             projectId,
             ...formData
@@ -306,6 +309,44 @@ class Index extends React.Component<Props, State> {
         } else {
             Message.success("操作失败");
         }
+    }
+
+    // 接口数据变化
+    onInterfaceChange(key?: any, value?: any) {
+        this.setState({
+            interfaceForm: Object.assign(this.state.interfaceForm, {
+                [key]: value
+            })
+        });
+    }
+
+    // 编辑接口
+    onEditInterface(id: string | number, event?: any) {
+        event?.stopPropagation();
+        getInterface({
+            id
+        }).then((res: any) => {
+            this.setState({
+                mainTitle: "编辑接口",
+                mainPageType: "editInterface",
+                interfaceForm: res.data
+            });
+        });
+    }
+
+    // 删除接口
+    onDeleteInterface(id: string | number, event?: any) {
+        event?.stopPropagation();
+        this.onDelete(
+            deleteInterface,
+            {
+                id
+            },
+            {
+                title: "提示",
+                content: "此操作将删除该接口, 是否继续?"
+            }
+        );
     }
 
     // 获取新增接口template
@@ -395,42 +436,17 @@ class Index extends React.Component<Props, State> {
         );
     }
 
-    // 接口数据变化
-    onInterfaceChange(key?: any, value?: any) {
-        this.setState({
-            interfaceForm: Object.assign(this.state.interfaceForm, {
-                [key]: value
-            })
-        });
-    }
-
-    // 编辑接口
-    onEditInterface(store: any, data: any, event?: any) {
-        event?.stopPropagation();
-        const id = data.id;
-        getInterface({
-            id
-        }).then((res: any) => {
-            this.setState({
-                mainTitle: "编辑接口",
-                mainPageType: "editInterface",
-                interfaceForm: res.data
-            });
-        });
-    }
-
-    // 删除接口
-    onDeleteInterface(store: any, data: any, event?: any) {
-        event?.stopPropagation();
-        this.onDelete(
-            deleteInterface,
+    // 获取接口详情template
+    getInterfaceDetailTemplate(interfaceForm: Interface.Form | any) {
+        let dataList: Array<any> = [
             {
-                id: data.id
-            },
-            {
-                title: "提示",
-                content: "此操作将删除该接口, 是否继续?"
+                label: "接口ID"
             }
+        ];
+        return (
+            <div className="m-detail m-detail-interface">
+                <div className="item"></div>
+            </div>
         );
     }
 
@@ -449,14 +465,14 @@ class Index extends React.Component<Props, State> {
                                 title="编辑接口"
                                 className="el-icon-edit s-fc0 f-mr10"
                                 onClick={event =>
-                                    this.onEditInterface(store, data, event)
+                                    this.onEditInterface(data.id, event)
                                 }
                             ></i>
                             <i
                                 title="删除接口"
                                 className="el-icon-delete s-fc0 f-mr10"
                                 onClick={event =>
-                                    this.onDeleteInterface(store, data, event)
+                                    this.onDeleteInterface(data.id, event)
                                 }
                             ></i>
                         </span>
@@ -466,21 +482,21 @@ class Index extends React.Component<Props, State> {
                                 title="新增接口"
                                 className="el-icon-plus s-fc0 f-mr10"
                                 onClick={event =>
-                                    this.onAddInterface(store, data, event)
+                                    this.onAddInterface(data.id, event)
                                 }
                             ></i>
                             <i
                                 title="编辑模块"
                                 className="el-icon-edit s-fc0 f-mr10"
                                 onClick={event =>
-                                    this.onEditModule(store, data, event)
+                                    this.onEditModule(data.id, event)
                                 }
                             ></i>
                             <i
                                 title="删除模块"
                                 className="el-icon-delete s-fc0 f-mr10"
                                 onClick={event =>
-                                    this.onDeleteModule(store, data, event)
+                                    this.onDeleteModule(data.id, event)
                                 }
                             ></i>
                         </span>
@@ -491,9 +507,11 @@ class Index extends React.Component<Props, State> {
     }
 
     onNodeClicked(data?: any, node?: any) {
-        this.props.history.push(
-            `/interface/${this.state.projectId}/${data.id}`
-        );
+        this.onRouterChange(`/interface/${this.state.projectId}/${data.id}`);
+    }
+
+    onRouterChange(options: any) {
+        this.props.history.push(options);
     }
 
     render(): ReactNode {
@@ -564,7 +582,12 @@ class Index extends React.Component<Props, State> {
                                           methods
                                       )
                                     : ""}
-                                {/* 编辑接口页面 */}
+                                {/* 接口详情页面 */}
+                                {mainPageType === "interfaceDetail"
+                                    ? this.getInterfaceDetailTemplate(
+                                          interfaceForm
+                                      )
+                                    : ""}
                             </div>
                         </div>
                     </div>
