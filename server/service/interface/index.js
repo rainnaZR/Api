@@ -31,6 +31,53 @@ const add = val => {
     });
 };
 
+//根据id查询
+const detail = val => {
+    const { id } = val;
+    const sql = "select * from tbl_api_interface where id = ?";
+    return query(sql, [id]).then(res => {
+        return res[0];
+    });
+};
+
+//更新
+const update = val => {
+    const {
+        id,
+        projectId,
+        moduleId,
+        label,
+        requestUrl,
+        requestMethod,
+        requestParams,
+        requestResponse
+    } = val;
+    let _sql = "update tbl_api_interface set ";
+    let { sql, args } = sqlUpdate(
+        {
+            project_id: projectId,
+            module_id: moduleId,
+            label,
+            request_url: requestUrl,
+            request_method: requestMethod,
+            request_params: requestParams,
+            request_response: requestResponse
+        },
+        _sql
+    );
+    _sql = sql + "where id = ?";
+
+    return query(_sql, [...args, id]);
+};
+
+//删除
+const del = val => {
+    const { id } = val;
+    const sql =
+        "update tbl_api_interface set interface_status = ? where id = ?";
+    return query(sql, [STATUS.INVALID, id]);
+};
+
 //查询
 // const list = val => {
 //     let sql =
@@ -46,45 +93,10 @@ const add = val => {
 //     });
 // };
 
-// //根据id查询
-// const detail = val => {
-//     const { id } = val;
-//     const sql = "select * from tbl_api_module where id = ?";
-//     return query(sql, [id]).then(res => {
-//         const { id, label, introduce, project_id } = res[0];
-//         return {
-//             id,
-//             label,
-//             introduce,
-//             projectId: project_id
-//         };
-//     });
-// };
-
-// //更新
-// const update = val => {
-//     const { id, label, introduce, projectId } = val;
-//     let _sql = "update tbl_api_module set ";
-//     const { sql, args } = sqlUpdate(
-//         { id, label, introduce, project_id: projectId },
-//         _sql
-//     );
-//     _sql = sql + "where id = ?";
-
-//     return query(_sql, [...args, id]);
-// };
-
-// //删除
-// const del = val => {
-//     const { id } = val;
-//     const sql = "update tbl_api_module set module_status = ? where id = ?";
-//     return query(sql, [STATUS.INVALID, id]);
-// };
-
 module.exports = {
-    add
-    // list,
-    // detail,
-    // update,
-    // del
+    add,
+    detail,
+    update,
+    del
+    // list
 };

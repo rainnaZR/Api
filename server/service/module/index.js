@@ -37,8 +37,9 @@ const list = val => {
 
 const getApi = item => {
     const id = item.id;
-    const sql = "select * from tbl_api_interface where module_id = ?";
-    return query(sql, [id]).then(res => {
+    const sql =
+        "select * from tbl_api_interface where module_id = ? and interface_status != ?";
+    return query(sql, [id, STATUS.INVALID]).then(res => {
         return {
             id: item.id,
             label: item.label,

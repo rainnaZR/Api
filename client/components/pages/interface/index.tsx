@@ -18,7 +18,12 @@ import {
     putModule,
     deleteModule
 } from "../../../request/module";
-import { postInterface, deleteInterface } from "../../../request/interface";
+import {
+    postInterface,
+    getInterface,
+    deleteInterface,
+    putInterface
+} from "../../../request/interface";
 import NavMenu from "../../common/navMenu";
 import "./index.scss";
 
@@ -273,8 +278,8 @@ class Index extends React.Component<Props, State> {
     doInterfaceSubmit() {
         const projectId = this.state.projectId;
         const formData = this.state.interfaceForm;
-        // 创建新接口
-        postInterface({
+        let request = formData.id ? putInterface : postInterface;
+        request({
             projectId,
             ...formData
         }).then(res => {
@@ -289,6 +294,7 @@ class Index extends React.Component<Props, State> {
             this.getTreeList();
             this.setState({
                 interfaceForm: {
+                    id: "",
                     moduleId: "",
                     label: "",
                     requestUrl: "",
@@ -398,6 +404,21 @@ class Index extends React.Component<Props, State> {
         });
     }
 
+    // 编辑接口
+    onEditInterface(store: any, data: any, event?: any) {
+        event?.stopPropagation();
+        const id = data.id;
+        getInterface({
+            id
+        }).then((res: any) => {
+            this.setState({
+                mainTitle: "编辑接口",
+                mainPageType: "editInterface",
+                interfaceForm: res.data
+            });
+        });
+    }
+
     // 删除接口
     onDeleteInterface(store: any, data: any, event?: any) {
         event?.stopPropagation();
@@ -424,6 +445,13 @@ class Index extends React.Component<Props, State> {
                 <span className="opts" style={{ float: "right" }}>
                     {data.moduleId ? (
                         <span>
+                            <i
+                                title="编辑接口"
+                                className="el-icon-edit s-fc0 f-mr10"
+                                onClick={event =>
+                                    this.onEditInterface(store, data, event)
+                                }
+                            ></i>
                             <i
                                 title="删除接口"
                                 className="el-icon-delete s-fc0 f-mr10"
@@ -528,7 +556,8 @@ class Index extends React.Component<Props, State> {
                             </div>
                             <div className="content">
                                 {/* 新增接口页面 */}
-                                {mainPageType === "addInterface"
+                                {mainPageType === "addInterface" ||
+                                mainPageType === "editInterface"
                                     ? this.getAddInterfaceTemplate(
                                           interfaceForm,
                                           interfaceFormRules,
