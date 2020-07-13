@@ -18,7 +18,7 @@ import {
     putModule,
     deleteModule
 } from "../../../request/module";
-import { postInterface } from "../../../request/interface";
+import { postInterface, deleteInterface } from "../../../request/interface";
 import NavMenu from "../../common/navMenu";
 import "./index.scss";
 
@@ -213,17 +213,17 @@ class Index extends React.Component<Props, State> {
     }
 
     // 删除
-    onDelete(params: any, msgOptions: any) {
+    onDelete(request: any, params: any, msgOptions: any) {
         MessageBox.confirm(msgOptions.content, msgOptions.title, {
             type: "warning"
         }).then(() => {
-            this.doDelete(params);
+            this.doDelete(request, params);
         });
     }
 
     // 删除
-    doDelete(params: any) {
-        deleteModule(params).then((res: any) => {
+    doDelete(request: any, params: any) {
+        request(params).then((res: any) => {
             if (res.success) {
                 Message.success("删除成功!");
                 this.getTreeList();
@@ -237,6 +237,7 @@ class Index extends React.Component<Props, State> {
     onDeleteModule(store: any, data: any, event?: any) {
         event?.stopPropagation();
         this.onDelete(
+            deleteModule,
             {
                 id: data.id
             },
@@ -401,9 +402,9 @@ class Index extends React.Component<Props, State> {
     onDeleteInterface(store: any, data: any, event?: any) {
         event?.stopPropagation();
         this.onDelete(
+            deleteInterface,
             {
-                id: data.id,
-                type: 2
+                id: data.id
             },
             {
                 title: "提示",
