@@ -6,7 +6,7 @@ const success = result => {
         code: 200,
         success: true,
         data: dataFormat(result),
-        msg: "操作成功"
+        message: "操作成功"
     };
 };
 
@@ -14,7 +14,7 @@ const success = result => {
 const failed = error => {
     return {
         code: error.status || 500,
-        msg: error.message || "服务器异常"
+        message: error.message || "服务器异常"
     };
 };
 

@@ -16,6 +16,20 @@ const add = val => {
     const sql =
         "INSERT INTO tbl_api_interface(Id, project_id, module_id, label, request_url, request_method, request_params, request_response, create_time, interface_status) VALUES(0,?,?,?,?,?,?,?,now(),1)";
 
+    if (!projectId) {
+        return new Promise((resolve, reject) => {
+            reject({
+                message: "项目Id不能为空"
+            });
+        });
+    }
+    if (!moduleId) {
+        return new Promise((resolve, reject) => {
+            reject({
+                message: "模块Id不能为空"
+            });
+        });
+    }
     return query(sql, [
         projectId,
         moduleId,

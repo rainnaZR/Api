@@ -192,14 +192,15 @@ class Index extends React.Component<Props, State> {
 
     // 模块信息提交回调
     cbModuleSubmit(res: any) {
-        if (res.success) {
-            Message.success("操作成功");
+        let { success, message } = res;
+        if (success) {
+            Message.success(message);
             this.setState({
                 modalShow: false
             });
             this.getTreeList();
         } else {
-            Message.success("操作失败");
+            Message.error(message);
         }
     }
 
@@ -230,11 +231,12 @@ class Index extends React.Component<Props, State> {
     // 删除
     doDelete(request: any, params: any) {
         request(params).then((res: any) => {
-            if (res.success) {
-                Message.success("删除成功!");
+            let { success, message } = res;
+            if (success) {
+                Message.success(message);
                 this.getTreeList();
             } else {
-                Message.error("删除失败!");
+                Message.error(message);
             }
         });
     }
@@ -292,8 +294,9 @@ class Index extends React.Component<Props, State> {
 
     // 接口信息提交回调
     cbInterfaceSubmit(res: any) {
-        if (res.success) {
-            Message.success("操作成功");
+        let { success, message } = res;
+        if (success) {
+            Message.success(message);
             this.getTreeList();
             this.setState({
                 interfaceForm: {
@@ -307,7 +310,7 @@ class Index extends React.Component<Props, State> {
                 }
             });
         } else {
-            Message.success("操作失败");
+            Message.error(message);
         }
     }
 
@@ -440,7 +443,8 @@ class Index extends React.Component<Props, State> {
     getInterfaceDetailTemplate(interfaceForm: Interface.Form | any) {
         let dataList: Array<any> = [
             {
-                label: "接口ID"
+                label: "接口ID",
+                value: interfaceForm.id
             }
         ];
         return (
