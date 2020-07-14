@@ -19,14 +19,14 @@ const add = val => {
     if (!projectId) {
         return new Promise((resolve, reject) => {
             reject({
-                message: "项目Id不能为空"
+                message: "项目id不能为空"
             });
         });
     }
     if (!moduleId) {
         return new Promise((resolve, reject) => {
             reject({
-                message: "模块Id不能为空"
+                message: "模块id不能为空"
             });
         });
     }

@@ -1,6 +1,9 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
+import NavMenu from "../../common/navMenu";
+import EditInterface from "./editInterface";
+import "./index.scss";
 import {
     Tree,
     Button,
@@ -8,8 +11,7 @@ import {
     Input,
     Message,
     Dialog,
-    MessageBox,
-    Select
+    MessageBox
 } from "element-react";
 import {
     getModuleList,
@@ -18,14 +20,7 @@ import {
     putModule,
     deleteModule
 } from "../../../request/module";
-import {
-    postInterface,
-    getInterface,
-    deleteInterface,
-    putInterface
-} from "../../../request/interface";
-import NavMenu from "../../common/navMenu";
-import "./index.scss";
+import { getInterface, deleteInterface } from "../../../request/interface";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
@@ -42,8 +37,6 @@ interface State {
     moduleForm?: Module.Form | any;
     moduleFormRules?: Module.FormRules;
     interfaceForm?: Interface.Form | any;
-    interfaceFormRules?: Interface.FormRules;
-    methods: Array<string>;
 }
 interface TreeInterface {
     id: number;
@@ -90,39 +83,7 @@ class Index extends React.Component<Props, State> {
                 requestMethod: "",
                 requestParams: "",
                 requestResponse: ""
-            },
-            interfaceFormRules: {
-                label: [
-                    {
-                        required: true,
-                        message: "请输入接口名称",
-                        trigger: "blur"
-                    }
-                ],
-                requestUrl: [
-                    {
-                        required: true,
-                        message: "请输入接口地址",
-                        trigger: "blur"
-                    }
-                ],
-                requestMethod: [
-                    {
-                        required: true,
-                        message: "请输入方法类型",
-                        trigger: "blur"
-                    }
-                ]
-            },
-            methods: [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS",
-                "HEAD",
-                "PATCH"
-            ]
+            }
         };
 
         this.getTreeList();
@@ -270,59 +231,6 @@ class Index extends React.Component<Props, State> {
         });
     }
 
-    // 接口信息提交
-    onInterfaceSubmit(e?: any) {
-        e.preventDefault();
-        const formRef: any = this.refs.interfaceForm;
-        formRef.validate((valid: boolean) => {
-            valid && this.doInterfaceSubmit();
-        });
-    }
-
-    // 接口信息提交
-    doInterfaceSubmit() {
-        const projectId = this.state.projectId;
-        const formData = this.state.interfaceForm;
-        const request = formData.id ? putInterface : postInterface;
-        request({
-            projectId,
-            ...formData
-        }).then(res => {
-            this.cbInterfaceSubmit(res);
-        });
-    }
-
-    // 接口信息提交回调
-    cbInterfaceSubmit(res: any) {
-        let { success, message } = res;
-        if (success) {
-            Message.success(message);
-            this.getTreeList();
-            this.setState({
-                interfaceForm: {
-                    id: "",
-                    moduleId: "",
-                    label: "",
-                    requestUrl: "",
-                    requestMethod: "",
-                    requestParams: "",
-                    requestResponse: ""
-                }
-            });
-        } else {
-            Message.error(message);
-        }
-    }
-
-    // 接口数据变化
-    onInterfaceChange(key?: any, value?: any) {
-        this.setState({
-            interfaceForm: Object.assign(this.state.interfaceForm, {
-                [key]: value
-            })
-        });
-    }
-
     // 编辑接口
     onEditInterface(id: string | number, event?: any) {
         event?.stopPropagation();
@@ -349,108 +257,6 @@ class Index extends React.Component<Props, State> {
                 title: "提示",
                 content: "此操作将删除该接口, 是否继续?"
             }
-        );
-    }
-
-    // 获取新增接口template
-    getAddInterfaceTemplate(
-        interfaceForm: Interface.Form | any,
-        interfaceFormRules: Interface.FormRules | any,
-        methods: Array<string>
-    ) {
-        return (
-            <Form
-                ref="interfaceForm"
-                model={interfaceForm}
-                rules={interfaceFormRules}
-                labelWidth="120"
-            >
-                <Form.Item label="接口名称" prop="label">
-                    <Input
-                        value={interfaceForm.label}
-                        placeholder="请输入接口名称"
-                        onChange={this.onInterfaceChange.bind(this, "label")}
-                    ></Input>
-                </Form.Item>
-                <Form.Item label="接口路径" prop="requestUrl">
-                    <Input
-                        value={interfaceForm.requestUrl}
-                        placeholder="请输入接口路径"
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestUrl"
-                        )}
-                    ></Input>
-                </Form.Item>
-                <Form.Item label="接口类型" prop="requestMethod">
-                    <Select
-                        value={interfaceForm.requestMethod}
-                        placeholder="接口类型"
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestMethod"
-                        )}
-                    >
-                        {methods.map((method, index) => (
-                            <Select.Option
-                                key={index}
-                                label={method}
-                                value={method}
-                            ></Select.Option>
-                        ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item label="传入参数" prop="requestParams">
-                    <Input
-                        type="textarea"
-                        value={interfaceForm.requestParams}
-                        placeholder="请输入入参"
-                        autosize={{
-                            minRows: 3,
-                            maxRows: 4
-                        }}
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestParams"
-                        )}
-                    ></Input>
-                </Form.Item>
-                <Form.Item label="返回值" prop="requestResponse">
-                    <Input
-                        type="textarea"
-                        value={interfaceForm.requestResponse}
-                        autosize={{
-                            minRows: 3,
-                            maxRows: 5
-                        }}
-                        placeholder="请输入返回值"
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestResponse"
-                        )}
-                    ></Input>
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" onClick={this.onInterfaceSubmit}>
-                        确 定
-                    </Button>
-                </Form.Item>
-            </Form>
-        );
-    }
-
-    // 获取接口详情template
-    getInterfaceDetailTemplate(interfaceForm: Interface.Form | any) {
-        let dataList: Array<any> = [
-            {
-                label: "接口ID",
-                value: interfaceForm.id
-            }
-        ];
-        return (
-            <div className="m-detail m-detail-interface">
-                <div className="item"></div>
-            </div>
         );
     }
 
@@ -511,11 +317,9 @@ class Index extends React.Component<Props, State> {
     }
 
     onNodeClicked(data?: any, node?: any) {
-        this.onRouterChange(`/interface/${this.state.projectId}/${data.id}`);
-    }
-
-    onRouterChange(options: any) {
-        this.props.history.push(options);
+        this.props.history.push(
+            `/interface/${this.state.projectId}/${data.id}`
+        );
     }
 
     render(): ReactNode {
@@ -529,10 +333,9 @@ class Index extends React.Component<Props, State> {
             treeOptions,
             moduleForm,
             moduleFormRules,
-            interfaceForm,
-            interfaceFormRules,
-            methods
+            interfaceForm
         } = this.state;
+
         return (
             <div className="m-interface">
                 {/* 导航 */}
@@ -578,20 +381,20 @@ class Index extends React.Component<Props, State> {
                             </div>
                             <div className="content">
                                 {/* 新增接口页面 */}
-                                {mainPageType === "addInterface" ||
-                                mainPageType === "editInterface"
-                                    ? this.getAddInterfaceTemplate(
-                                          interfaceForm,
-                                          interfaceFormRules,
-                                          methods
-                                      )
-                                    : ""}
-                                {/* 接口详情页面 */}
-                                {mainPageType === "interfaceDetail"
-                                    ? this.getInterfaceDetailTemplate(
-                                          interfaceForm
-                                      )
-                                    : ""}
+                                {mainPageType === "addInterface" && (
+                                    <EditInterface
+                                        interfaceForm={interfaceForm}
+                                        getTreeList={this.getTreeList}
+                                    />
+                                )}
+
+                                {/* {编辑接口页面} */}
+                                {mainPageType === "editInterface" && (
+                                    <EditInterface
+                                        interfaceForm={interfaceForm}
+                                        getTreeList={this.getTreeList}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
