@@ -8,11 +8,12 @@ import { postInterface, putInterface } from "../../../request/interface";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
+    projectId?: string | number;
     interfaceForm?: Interface.Form | any;
-    getTreeList: any;
+    onGetTreeList: any;
 };
 interface State {
-    projectId?: any;
+    projectId?: string | number;
     interfaceForm?: Interface.Form | any;
     interfaceFormRules?: Interface.FormRules;
 }
@@ -23,7 +24,7 @@ class Index extends React.Component<Props, State> {
         autoBind(this);
 
         this.state = {
-            projectId: this.props.match?.params?.projectId,
+            projectId: props.projectId,
             interfaceForm: props.interfaceForm,
             interfaceFormRules: {
                 label: [
@@ -93,7 +94,7 @@ class Index extends React.Component<Props, State> {
         let { success, message } = res;
         if (success) {
             Message.success(message);
-            this.props.getTreeList();
+            this.props.onGetTreeList();
             this.setState({
                 interfaceForm: {
                     id: "",

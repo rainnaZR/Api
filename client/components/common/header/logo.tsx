@@ -1,6 +1,5 @@
 import React from "react";
-const LogoUrl =
-    "https://lt3d.oss-cn-hangzhou.aliyuncs.com/Fashion/Company/081f1cd1-1d2d-3d30-8c62-f5c4f1356f08/files/20191225170259_7566_logo_20191203170419/logo_20191203170419.png";
+const LogoUrl = "https://www.style3d.com/img/loginLogo.b7135e35.png";
 
 export default function() {
     return (
