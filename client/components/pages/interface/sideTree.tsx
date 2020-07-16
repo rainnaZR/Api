@@ -14,6 +14,7 @@ type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
     projectId?: string | number;
     treeData?: Array<Common.Tree>;
+    onRef?: any;
     onEditInterface?: any;
     onDeleteInterface?: any;
     onAddInterface?: any;
@@ -56,6 +57,10 @@ class Index extends React.Component<Props, State> {
             }
         };
         this.onGetTreeList();
+    }
+
+    componentDidMount() {
+        this.props.onRef(this);
     }
 
     // 获取左侧目录列表

@@ -3,16 +3,10 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
 import NavMenu from "../../common/navMenu";
 import SideTree from "./sideTree";
-import EditInterface from "./editInterface"; 
+import EditInterface from "./editInterface";
 import "./index.scss";
-import {
-    Button,
-    Message,
-    MessageBox
-} from "element-react";
-import {
-    deleteModule
-} from "../../../request/module";
+import { Button, Message, MessageBox } from "element-react";
+import { deleteModule } from "../../../request/module";
 import { getInterface, deleteInterface } from "../../../request/interface";
 
 type PathParamsType = any;
@@ -28,6 +22,7 @@ interface State {
 }
 
 class Index extends React.Component<Props, State> {
+    treeRef: any;
     constructor(props: Props) {
         super(props);
         autoBind(this);
@@ -47,14 +42,17 @@ class Index extends React.Component<Props, State> {
         };
     }
 
+    onTreeRef(ref: any) {
+        this.treeRef = ref;
+    }
+
     // 更新分类
-    onGetTreeList(){
-        const treeRef: any = this.refs.sideTree;
-        treeRef.onGetTreeList();
+    onGetTreeList() {
+        this.treeRef.onGetTreeList();
     }
 
     // 新增接口
-    onAddInterface(options = {}){
+    onAddInterface(options = {}) {
         this.setState({
             mainTitle: "新增接口",
             mainPageType: "addInterface",
@@ -144,7 +142,15 @@ class Index extends React.Component<Props, State> {
                 <div className="f-flexr m-content">
                     {/* 边栏目录 */}
                     <div className="m-side">
-                        <SideTree ref="sideTree" projectId={projectId} treeData={treeData} onEditInterface={this.onEditInterface} onDeleteInterface={this.onDeleteInterface} onAddInterface={this.onAddInterface} onDeleteModule={this.onDeleteModule}/>
+                        <SideTree
+                            projectId={projectId}
+                            treeData={treeData}
+                            onRef={this.onTreeRef}
+                            onEditInterface={this.onEditInterface}
+                            onDeleteInterface={this.onDeleteInterface}
+                            onAddInterface={this.onAddInterface}
+                            onDeleteModule={this.onDeleteModule}
+                        />
                     </div>
                     <div className="m-main f-flex-f1 f-ml20">
                         <div className="operation">
@@ -162,7 +168,7 @@ class Index extends React.Component<Props, State> {
                                     <EditInterface
                                         projectId={projectId}
                                         interfaceForm={interfaceForm}
-                                        getTreeList={this.onGetTreeList}
+                                        onGetTreeList={this.onGetTreeList}
                                     />
                                 )}
 
@@ -171,7 +177,7 @@ class Index extends React.Component<Props, State> {
                                     <EditInterface
                                         projectId={projectId}
                                         interfaceForm={interfaceForm}
-                                        getTreeList={this.onGetTreeList}
+                                        onGetTreeList={this.onGetTreeList}
                                     />
                                 )}
                             </div>
