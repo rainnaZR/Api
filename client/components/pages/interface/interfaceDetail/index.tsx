@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
 import { Button } from "element-react";
+import "./index.scss";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
@@ -36,50 +37,54 @@ class Index extends React.Component<Props, State> {
             {
                 label: "接口类型",
                 value: interfaceForm.requestMethod
+            },
+            {
+                label: "创建时间",
+                value: interfaceForm.createTime
+            },
+            {
+                label: "更新时间",
+                value: interfaceForm.updateTime
             }
         ];
 
         return (
             <div className="m-detail">
-                <div className="f-tar f-mb10">
+                <div className="topbar f-tar f-mb10">
                     <Button
                         type="primary"
                         onClick={() => onEditInterface(interfaceForm.id)}
                     >
-                        编辑<i className="el-icon-edit f-ml5 f-fs12"></i>
+                        <i className="el-icon-edit f-ml5 f-fs12"></i>
                     </Button>
                     <Button
                         type="primary"
                         onClick={() => onDeleteInterface(interfaceForm.id)}
                     >
-                        删除<i className="el-icon-delete f-ml5 f-fs12"></i>
+                        <i className="el-icon-delete f-ml5 f-fs12"></i>
                     </Button>
                 </div>
-                {/* 基础信息 */}
                 <div className="m-box">
+                    {/* 基础信息 */}
                     {dataList.map((data, index) => {
                         return (
-                            <div className="f-flexr" key={index}>
-                                <div className="label">{data.label}：</div>
-                                <div className="content">{data.value}</div>
+                            <div className="f-flexr f-mb10" key={index}>
+                                <div className="s-fc1">{data.label}：</div>
+                                <div className="s-fc2">{data.value}</div>
                             </div>
                         );
                     })}
-                </div>
-                {/* 请求参数 */}
-                <div className="m-box">
+                    {/* 请求参数 */}
                     <div className="f-flexr">
-                        <div className="label">请求参数：</div>
-                        <div className="content">
+                        <div className="s-fc1">请求参数：</div>
+                        <div className="s-fc2">
                             {interfaceForm.requestParams}
                         </div>
                     </div>
-                </div>
-                {/* 响应内容 */}
-                <div className="m-box">
+                    {/* 响应内容 */}
                     <div className="f-flexr">
-                        <div className="label">响应内容：</div>
-                        <div className="content">
+                        <div className="s-fc1">响应内容：</div>
+                        <div className="s-fc2">
                             {interfaceForm.requestResponse}
                         </div>
                     </div>

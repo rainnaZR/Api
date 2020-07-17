@@ -1,5 +1,5 @@
 const { query } = require("../index");
-const { sqlUpdate } = require("../../utils/index");
+const { sqlUpdate, dateFormat } = require("../../utils/index");
 const { STATUS } = require("../constants");
 
 //新增
@@ -50,7 +50,11 @@ const detail = val => {
     const { id } = val;
     const sql = "select * from tbl_api_interface where id = ?";
     return query(sql, [id]).then(res => {
-        return res[0];
+        return {
+            ...res[0],
+            create_time: dateFormat(res[0].create_time),
+            update_time: dateFormat(res[0].update_time||Date.now())
+        };
     });
 };
 
