@@ -6,7 +6,7 @@ const Page = () => {
     return (
         <div className="m-header f-flexr">
             <Logo />
-            <p className="f-flex-f1">API接口管理平台</p>
+            <p className="f-flex-f1 f-ml15">API接口管理平台</p>
             <div>Developer</div>
         </div>
     );

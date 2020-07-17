@@ -36,42 +36,53 @@ class Index extends React.Component<Props, State> {
             {
                 label: "接口类型",
                 value: interfaceForm.requestMethod
-            },
-            {
-                label: "请求参数",
-                value: interfaceForm.requestParams
-            },
-            {
-                label: "响应内容",
-                value: interfaceForm.requestResponse
             }
         ];
 
         return (
             <div className="m-detail">
-                <div className="topbar">
+                <div className="f-tar f-mb10">
                     <Button
                         type="primary"
                         onClick={() => onEditInterface(interfaceForm.id)}
                     >
-                        编辑
+                        编辑<i className="el-icon-edit f-ml5 f-fs12"></i>
                     </Button>
                     <Button
                         type="primary"
                         onClick={() => onDeleteInterface(interfaceForm.id)}
                     >
-                        删除
+                        删除<i className="el-icon-delete f-ml5 f-fs12"></i>
                     </Button>
                 </div>
-                <div className="list">
-                    {dataList.map(data => {
+                {/* 基础信息 */}
+                <div className="m-box">
+                    {dataList.map((data, index) => {
                         return (
-                            <div className="item">
+                            <div className="f-flexr" key={index}>
                                 <div className="label">{data.label}：</div>
                                 <div className="content">{data.value}</div>
                             </div>
                         );
                     })}
+                </div>
+                {/* 请求参数 */}
+                <div className="m-box">
+                    <div className="f-flexr">
+                        <div className="label">请求参数：</div>
+                        <div className="content">
+                            {interfaceForm.requestParams}
+                        </div>
+                    </div>
+                </div>
+                {/* 响应内容 */}
+                <div className="m-box">
+                    <div className="f-flexr">
+                        <div className="label">响应内容：</div>
+                        <div className="content">
+                            {interfaceForm.requestResponse}
+                        </div>
+                    </div>
                 </div>
             </div>
         );

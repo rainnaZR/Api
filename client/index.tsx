@@ -7,7 +7,8 @@ import "element-theme-default";
 import "./style/reset.scss";
 import "./style/base.scss";
 import "./style/unit.scss";
-import "./style/element.scss";
+import "./style/module.scss";
+import "./style/elementUi.scss";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
