@@ -53,7 +53,7 @@ const detail = val => {
         return {
             ...res[0],
             create_time: dateFormat(res[0].create_time),
-            update_time: dateFormat(res[0].update_time||Date.now())
+            update_time: dateFormat(res[0].update_time || Date.now())
         };
     });
 };
@@ -79,7 +79,8 @@ const update = val => {
             request_url: requestUrl,
             request_method: requestMethod,
             request_params: requestParams,
-            request_response: requestResponse
+            request_response: requestResponse,
+            update_time: dateFormat(Date.now())
         },
         _sql
     );

@@ -64,13 +64,13 @@ class Index extends React.Component<Props, State> {
                         <i className="el-icon-delete f-ml5 f-fs12"></i>
                     </Button>
                 </div>
-                <div className="m-box">
+                <div className="list">
                     {/* 基础信息 */}
                     {dataList.map((data, index) => {
                         return (
-                            <div className="f-flexr f-mb10" key={index}>
-                                <div className="s-fc1">{data.label}：</div>
-                                <div className="s-fc2">{data.value}</div>
+                            <div className="f-flexr f-mb15" key={index}>
+                                <div className="label">{data.label}：</div>
+                                <div className="content">{data.value}</div>
                             </div>
                         );
                     })}
