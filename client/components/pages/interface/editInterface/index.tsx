@@ -2,9 +2,9 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
-import { METHODS } from "../../common/constant";
+import { METHODS } from "../../../common/constant";
 import { Button, Form, Input, Select, Message } from "element-react";
-import { postInterface, putInterface } from "../../../request/interface";
+import { postInterface, putInterface } from "../../../../request/interface";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {

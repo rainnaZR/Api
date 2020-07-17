@@ -8,13 +8,15 @@ import {
     getModule,
     putModule,
     postModule
-} from "../../../request/module";
+} from "../../../../request/module";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
     projectId?: string | number;
     treeData?: Array<Common.Tree>;
     onRef?: any;
+    onViewInterfaceDetail?: any;
+    onViewModuleDetail?: any;
     onEditInterface?: any;
     onDeleteInterface?: any;
     onAddInterface?: any;
@@ -59,7 +61,7 @@ class Index extends React.Component<Props, State> {
         this.onGetTreeList();
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         this.props.onRef(this);
     }
 
@@ -72,6 +74,14 @@ class Index extends React.Component<Props, State> {
                 treeData: res?.data?.list
             });
         });
+    }
+
+    // 查看详情
+    onViewDetail(data?: any, event?: any) {
+        event?.stopPropagation();
+        data.moduleId
+            ? this.props.onViewInterfaceDetail(data.id)
+            : this.props.onViewModuleDetail(data.id);
     }
 
     // 新增模块
@@ -185,7 +195,7 @@ class Index extends React.Component<Props, State> {
     renderContent(nodeModel?: any, data?: any, store?: any) {
         return (
             <span>
-                <span>
+                <span onClick={event => this.onViewDetail(data, event)}>
                     <span>{data.label}</span>
                 </span>
                 <span className="opts" style={{ float: "right" }}>

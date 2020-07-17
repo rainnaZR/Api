@@ -4,6 +4,7 @@ import autoBind from "class-autobind";
 import NavMenu from "../../common/navMenu";
 import SideTree from "./sideTree";
 import EditInterface from "./editInterface";
+import InterfaceDetail from "./interfaceDetail";
 import "./index.scss";
 import { Button, Message, MessageBox } from "element-react";
 import { deleteModule } from "../../../request/module";
@@ -50,6 +51,22 @@ class Index extends React.Component<Props, State> {
     onGetTreeList() {
         this.treeRef.onGetTreeList();
     }
+
+    // 接口详情
+    onViewInterfaceDetail(id: string | number) {
+        getInterface({
+            id
+        }).then((res: any) => {
+            this.setState({
+                mainTitle: "接口详情",
+                mainPageType: "interfaceDetail",
+                interfaceForm: res.data
+            });
+        });
+    }
+
+    // 模块详情
+    onViewModuleDetail(id: string | number) {}
 
     // 新增接口
     onAddInterface(options = {}) {
@@ -146,6 +163,8 @@ class Index extends React.Component<Props, State> {
                             projectId={projectId}
                             treeData={treeData}
                             onRef={this.onTreeRef}
+                            onViewInterfaceDetail={this.onViewInterfaceDetail}
+                            onViewModuleDetail={this.onViewModuleDetail}
                             onEditInterface={this.onEditInterface}
                             onDeleteInterface={this.onDeleteInterface}
                             onAddInterface={this.onAddInterface}
@@ -178,6 +197,17 @@ class Index extends React.Component<Props, State> {
                                         projectId={projectId}
                                         interfaceForm={interfaceForm}
                                         onGetTreeList={this.onGetTreeList}
+                                    />
+                                )}
+
+                                {/* {接口详情页面} */}
+                                {mainPageType === "interfaceDetail" && (
+                                    <InterfaceDetail
+                                        interfaceForm={interfaceForm}
+                                        onEditInterface={this.onEditInterface}
+                                        onDeleteInterface={
+                                            this.onDeleteInterface
+                                        }
                                     />
                                 )}
                             </div>

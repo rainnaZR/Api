@@ -106,19 +106,7 @@
     color: #999;
 }
 .s-fc1 {
-    color: #20a0ff;
-}
-.s-fc2 {
-    color: #262626;
-}
-.s-fc3 {
-    color: #4d4d4d;
-}
-.s-fc4 {
-    color: #000;
-}
-.s-fc5 {
-    color: #ff4709;
+    color: #666;
 }
 /* 字体大小 */
 .f-fs12 {
@@ -149,36 +137,16 @@
 .f-trans {
     transition: all 0.3s;
 }
-.f-anim {
-    animation: fadeIn 0.3s ease-in;
-}
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-.f-hdsrollbar::-webkit-scrollbar {
-    width: 0 !important;
-}
-.f-hdsrollbar {
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-}
 /* 布局类 */
 .f-flexr {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
 }
 .f-flex-f1 {
     flex: 1;
 }
-.f-boxsd {
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.01),
-        0px 4px 5px 0px rgba(0, 0, 0, 0.04),
-        0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+/* 宽度 */
+.f-w100 {
+    width: 100px;
 }
