@@ -4,6 +4,8 @@ declare namespace Interface {
         moduleId?: string | number;
         projectId?: string | number;
         label?: string;
+        introduce?: string;
+        tag?: string;
         requestUrl?: string;
         requestMethod?: string;
         requestParams?: string;

@@ -8,13 +8,15 @@ const add = val => {
         projectId,
         moduleId,
         label,
+        introduce,
+        tag,
         requestUrl,
         requestMethod,
         requestParams,
         requestResponse
     } = val;
     const sql =
-        "INSERT INTO tbl_api_interface(Id, project_id, module_id, label, request_url, request_method, request_params, request_response, create_time, interface_status) VALUES(0,?,?,?,?,?,?,?,now(),1)";
+        "INSERT INTO tbl_api_interface(Id, project_id, module_id, label, introduce, tag, request_url, request_method, request_params, request_response, create_time, interface_status) VALUES(0,?,?,?,?,?,?,?,now(),1)";
 
     if (!projectId) {
         return new Promise((resolve, reject) => {
@@ -34,6 +36,8 @@ const add = val => {
         projectId,
         moduleId,
         label,
+        introduce,
+        tag,
         requestUrl,
         requestMethod,
         requestParams,
@@ -65,6 +69,8 @@ const update = val => {
         projectId,
         moduleId,
         label,
+        introduce,
+        tag,
         requestUrl,
         requestMethod,
         requestParams,
@@ -76,6 +82,8 @@ const update = val => {
             project_id: projectId,
             module_id: moduleId,
             label,
+            introduce,
+            tag,
             request_url: requestUrl,
             request_method: requestMethod,
             request_params: requestParams,

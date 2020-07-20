@@ -156,6 +156,23 @@ class Index extends React.Component<Props, State> {
                         ))}
                     </Select>
                 </Form.Item>
+                <Form.Item label="接口描述" prop="introduce">
+                    <Input
+                        value={interfaceForm.introduce}
+                        placeholder="请输入接口描述"
+                        onChange={this.onInterfaceChange.bind(
+                            this,
+                            "introduce"
+                        )}
+                    ></Input>
+                </Form.Item>
+                <Form.Item label="接口版本号" prop="tag">
+                    <Input
+                        value={interfaceForm.tag}
+                        placeholder="请输入接口版本号"
+                        onChange={this.onInterfaceChange.bind(this, "tag")}
+                    ></Input>
+                </Form.Item>
                 <Form.Item label="传入参数" prop="requestParams">
                     <Input
                         type="textarea"
