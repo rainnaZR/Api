@@ -2,6 +2,11 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/material.css";
+import "codemirror/mode/xml/xml";
+import "codemirror/mode/javascript/javascript";
+import { UnControlled as CodeMirror } from "react-codemirror2";
 import { METHODS } from "../../../common/constant";
 import { Button, Form, Input, Select, Message } from "element-react";
 import { postInterface, putInterface } from "../../../../request/interface";
@@ -126,7 +131,7 @@ class Index extends React.Component<Props, State> {
                         value={interfaceForm.label}
                         placeholder="请输入接口名称"
                         onChange={this.onInterfaceChange.bind(this, "label")}
-                    ></Input>
+                    />
                 </Form.Item>
                 <Form.Item label="接口路径" prop="requestUrl">
                     <Input
@@ -136,7 +141,7 @@ class Index extends React.Component<Props, State> {
                             this,
                             "requestUrl"
                         )}
-                    ></Input>
+                    />
                 </Form.Item>
                 <Form.Item label="接口类型" prop="requestMethod">
                     <Select
@@ -164,14 +169,14 @@ class Index extends React.Component<Props, State> {
                             this,
                             "introduce"
                         )}
-                    ></Input>
+                    />
                 </Form.Item>
                 <Form.Item label="接口版本号" prop="tag">
                     <Input
                         value={interfaceForm.tag}
                         placeholder="请输入接口版本号"
                         onChange={this.onInterfaceChange.bind(this, "tag")}
-                    ></Input>
+                    />
                 </Form.Item>
                 <Form.Item label="传入参数" prop="requestParams">
                     <Input
@@ -186,22 +191,20 @@ class Index extends React.Component<Props, State> {
                             this,
                             "requestParams"
                         )}
-                    ></Input>
+                    />
                 </Form.Item>
                 <Form.Item label="返回值" prop="requestResponse">
-                    <Input
-                        type="textarea"
+                    <CodeMirror
                         value={interfaceForm.requestResponse}
-                        autosize={{
-                            minRows: 3,
-                            maxRows: 5
+                        options={{
+                            mode: "xml",
+                            theme: "material",
+                            lineNumbers: true
                         }}
-                        placeholder="请输入返回值"
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestResponse"
-                        )}
-                    ></Input>
+                        onChange={(editor, data, value) => {
+                            // this.onInterfaceChange('requestResponse', value)
+                        }}
+                    />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" onClick={this.onInterfaceSubmit}>

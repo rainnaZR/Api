@@ -85,17 +85,21 @@ class Index extends React.Component<Props, State> {
                         );
                     })}
                     {/* 请求参数 */}
-                    <div className="f-flexr">
-                        <div className="s-fc1">请求参数：</div>
-                        <div className="s-fc2">
-                            {interfaceForm.requestParams}
+                    <div className="f-flexr f-mb15">
+                        <div className="label">请求参数：</div>
+                        <div className="content">
+                            <pre className="body">
+                                {interfaceForm.requestParams}
+                            </pre>
                         </div>
                     </div>
                     {/* 响应内容 */}
-                    <div className="f-flexr">
-                        <div className="s-fc1">响应内容：</div>
-                        <div className="s-fc2">
-                            {interfaceForm.requestResponse}
+                    <div className="f-flexr f-mb15">
+                        <div className="label">响应内容：</div>
+                        <div className="content">
+                            <pre className="body">
+                                {interfaceForm.requestResponse}
+                            </pre>
                         </div>
                     </div>
                 </div>
