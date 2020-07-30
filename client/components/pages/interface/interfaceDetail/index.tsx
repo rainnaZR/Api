@@ -58,7 +58,7 @@ class Index extends React.Component<Props, State> {
 
         return (
             <div className="m-detail">
-                <div className="topbar f-tar f-mb10">
+                <div className="m-topbar f-tar f-mb10">
                     <Button
                         type="primary"
                         onClick={() => onEditInterface(interfaceForm.id)}
@@ -72,7 +72,7 @@ class Index extends React.Component<Props, State> {
                         <i className="el-icon-delete f-ml5 f-fs12"></i>
                     </Button>
                 </div>
-                <div className="list">
+                <div className="m-list">
                     {/* 基础信息 */}
                     {dataList.map((data, index) => {
                         return (

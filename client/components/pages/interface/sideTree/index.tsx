@@ -196,7 +196,7 @@ class Index extends React.Component<Props, State> {
         return (
             <span>
                 <span onClick={event => this.onViewDetail(data, event)}>
-                    <span>{data.label}</span>
+                    {data.label}
                 </span>
                 <span className="opts" style={{ float: "right" }}>
                     {data.moduleId ? (

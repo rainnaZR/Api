@@ -178,7 +178,7 @@ class Index extends React.Component<Props, State> {
                             </Button>
                         </div>
                         <div className="detail">
-                            <div className="title f-mt20 f-mb20">
+                            <div className="title f-fs16 f-mt20 f-mb20">
                                 {mainTitle}
                             </div>
                             <div className="content">

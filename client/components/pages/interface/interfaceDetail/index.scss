@@ -1,8 +1,11 @@
 .m-detail {
-    .topbar {
-        margin-top: -40px;
+    position: relative;
+    .m-topbar {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
-    .list {
+    .m-list {
         .label {
             width: 120px;
             color: #999;
