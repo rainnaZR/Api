@@ -2,13 +2,9 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
-import "codemirror/mode/xml/xml";
-import "codemirror/mode/javascript/javascript";
-import { UnControlled as CodeMirror } from "react-codemirror2";
-import { METHODS } from "../../../common/constant";
 import { Button, Form, Input, Select, Message } from "element-react";
+import { METHODS } from "../../../common/constant";
+import CodeMirror from "../../../common/codeMirror";
 import { postInterface, putInterface } from "../../../../request/interface";
 
 type PathParamsType = any;
@@ -163,8 +159,13 @@ class Index extends React.Component<Props, State> {
                 </Form.Item>
                 <Form.Item label="接口描述" prop="introduce">
                     <Input
+                        type="textarea"
                         value={interfaceForm.introduce}
                         placeholder="请输入接口描述"
+                        autosize={{
+                            minRows: 2,
+                            maxRows: 3
+                        }}
                         onChange={this.onInterfaceChange.bind(
                             this,
                             "introduce"
@@ -179,14 +180,8 @@ class Index extends React.Component<Props, State> {
                     />
                 </Form.Item>
                 <Form.Item label="传入参数" prop="requestParams">
-                    <Input
-                        type="textarea"
+                    <CodeMirror
                         value={interfaceForm.requestParams}
-                        placeholder="请输入入参"
-                        autosize={{
-                            minRows: 3,
-                            maxRows: 4
-                        }}
                         onChange={this.onInterfaceChange.bind(
                             this,
                             "requestParams"
@@ -196,14 +191,10 @@ class Index extends React.Component<Props, State> {
                 <Form.Item label="返回值" prop="requestResponse">
                     <CodeMirror
                         value={interfaceForm.requestResponse}
-                        options={{
-                            mode: "xml",
-                            theme: "material",
-                            lineNumbers: true
-                        }}
-                        onChange={(editor, data, value) => {
-                            // this.onInterfaceChange('requestResponse', value)
-                        }}
+                        onChange={this.onInterfaceChange.bind(
+                            this,
+                            "requestResponse"
+                        )}
                     />
                 </Form.Item>
                 <Form.Item>

@@ -1,7 +1,5 @@
 import React from "react";
 import "codemirror/lib/codemirror.css";
-import "codemirror/theme/duotone-light.css"; //  https://codemirror.net/theme/
-import "codemirror/theme/material.css";
 import "./index.scss";
 import "codemirror/mode/javascript/javascript";
 import { UnControlled as CodeMirror } from "react-codemirror2";
@@ -15,21 +13,19 @@ interface Props {
 const Page = (props: Props) => {
     let options = {
         mode: "application/json", // 语言
-        theme: "material", // 编辑器主题
-        lineNumbers: false, // 显示行号
+        lineNumbers: true, // 显示行号
         lineWrapping: true, // 代码长文时是折叠还是滚动
         readOnly: false, // 是否只读
         indentUnit: 2, // 缩进空格
+        tabSize: 2, // tab点击的空格
         smartIndent: true, // 是否自动缩进
+        cursorBlinkRate: 0, // 光标闪动的间隔
         ...(props.options || {})
     };
-    let jsonValue = props.value
-        ? JSON.stringify(JSON.parse(props.value), null, options.indentUnit)
-        : "";
 
     return (
         <CodeMirror
-            value={jsonValue}
+            value={props.value}
             options={options}
             onChange={(editor, data, value) => {
                 props.onChange(value);
