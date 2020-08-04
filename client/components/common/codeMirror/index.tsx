@@ -2,6 +2,7 @@ import React from "react";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/lib/codemirror.css";
 import "./index.scss";
+import "./preview.scss";
 import { UnControlled as CodeMirror } from "react-codemirror2";
 
 interface Props {

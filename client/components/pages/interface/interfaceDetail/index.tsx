@@ -57,7 +57,9 @@ class Index extends React.Component<Props, State> {
             }
         ];
         const codeMirrorOptions = {
-            readOnly: true
+            readOnly: "nocursor",
+            lineNumbers: false,
+            theme: "preview"
         };
 
         return (
