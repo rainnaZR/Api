@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
 import { Button, Form, Input, Select, Message } from "element-react";
+import JSON5 from "json5";
 import { METHODS } from "../../../common/constant";
 import CodeMirror from "../../../common/codeMirror";
 import { postInterface, putInterface } from "../../../../request/interface";
@@ -17,6 +18,8 @@ interface State {
     projectId?: string | number;
     interfaceForm?: Interface.Form | any;
     interfaceFormRules?: Interface.FormRules;
+    requestParams?: any;
+    requestResponse?: any;
 }
 
 class Index extends React.Component<Props, State> {
@@ -49,7 +52,9 @@ class Index extends React.Component<Props, State> {
                         trigger: "blur"
                     }
                 ]
-            }
+            },
+            requestParams: props.interfaceForm.requestParams,
+            requestResponse: props.interfaceForm.requestResponse
         };
     }
 
@@ -80,7 +85,11 @@ class Index extends React.Component<Props, State> {
     // 接口信息提交
     doInterfaceSubmit() {
         const projectId = this.state.projectId;
-        const formData = this.state.interfaceForm;
+        const formData = {
+            ...this.state.interfaceForm,
+            requestParams: this.state.requestParams,
+            requestResponse: this.state.requestResponse
+        };
         const request = formData.id ? putInterface : postInterface;
         request({
             projectId,
@@ -103,12 +112,32 @@ class Index extends React.Component<Props, State> {
                     label: "",
                     requestUrl: "",
                     requestMethod: "",
-                    requestParams: "",
-                    requestResponse: ""
+                    requestParams: "{}",
+                    requestResponse: "{}"
                 }
             });
         } else {
             Message.error(message);
+        }
+    }
+
+    // json格式化
+    onFormatJson(key: string, e?: any) {
+        e.preventDefault();
+        try {
+            let state: any = this.state;
+            let value = JSON5.parse(state[key]);
+            let beautifiedValue = JSON.stringify(value, null, 2);
+            this.setState({
+                interfaceForm: {
+                    ...this.state.interfaceForm,
+                    [key]: beautifiedValue
+                },
+                [key]: beautifiedValue
+            });
+        } catch (error) {
+            Message.error("JSON格式错误！");
+            console.error(error);
         }
     }
 
@@ -163,8 +192,8 @@ class Index extends React.Component<Props, State> {
                         value={interfaceForm.introduce}
                         placeholder="请输入接口描述"
                         autosize={{
-                            minRows: 2,
-                            maxRows: 3
+                            minRows: 3,
+                            maxRows: 5
                         }}
                         onChange={this.onInterfaceChange.bind(
                             this,
@@ -182,20 +211,34 @@ class Index extends React.Component<Props, State> {
                 <Form.Item label="传入参数" prop="requestParams">
                     <CodeMirror
                         value={interfaceForm.requestParams}
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestParams"
-                        )}
+                        onChange={(value: any) => {
+                            this.setState({
+                                requestParams: value
+                            });
+                        }}
                     />
+                    <Button
+                        className="f-mt15"
+                        onClick={e => this.onFormatJson("requestParams", e)}
+                    >
+                        格式化
+                    </Button>
                 </Form.Item>
                 <Form.Item label="返回值" prop="requestResponse">
                     <CodeMirror
                         value={interfaceForm.requestResponse}
-                        onChange={this.onInterfaceChange.bind(
-                            this,
-                            "requestResponse"
-                        )}
+                        onChange={(value: any) => {
+                            this.setState({
+                                requestResponse: value
+                            });
+                        }}
                     />
+                    <Button
+                        className="f-mt15"
+                        onClick={e => this.onFormatJson("requestResponse", e)}
+                    >
+                        格式化
+                    </Button>
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" onClick={this.onInterfaceSubmit}>

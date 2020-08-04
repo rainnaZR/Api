@@ -116,7 +116,9 @@ class Index extends React.Component<Props, State> {
         event?.stopPropagation();
         this.props.onAddInterface({
             interfaceForm: {
-                moduleId
+                moduleId,
+                requestParams: "{}",
+                requestResponse: "{}"
             }
         });
     }
