@@ -5,18 +5,6 @@ const keyFormat = string => {
     });
 };
 
-const objFormat2 = (obj, char = "_") => {
-    if (!obj) return;
-    const keys = Object.keys(obj).filter(item => item.indexOf(char) > -1);
-    keys.forEach(key => {
-        const value = obj[key];
-        const newKey = keyFormat(key);
-        obj[newKey] = value;
-        // delete obj[key];
-    });
-    return obj;
-};
-
 const objFormat = (obj, char = "_") => {
     if (!obj || typeof obj !== "object") return;
     const keys = Object.keys(obj);
@@ -70,7 +58,10 @@ const sqlUpdate = (params, sql) => {
     };
 };
 
-// 处理时间
+/**
+ * 处理时间
+ * **/
+
 const dateFormat = (date, formatStr = "YYYY-MM-DD HH:mm:ss") => {
     return dayjs(date).format(formatStr);
 };

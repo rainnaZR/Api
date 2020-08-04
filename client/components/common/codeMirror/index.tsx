@@ -1,8 +1,8 @@
 import React from "react";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/lib/codemirror.css";
-import "./index.scss";
-import "./preview.scss";
+import "./index.scss"; // 默认主题样式-编辑模式
+import "./preview.scss"; // 预览模式
 import { UnControlled as CodeMirror } from "react-codemirror2";
 
 interface Props {

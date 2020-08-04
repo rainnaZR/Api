@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
 import { Button, Form, Input, Select, Message } from "element-react";
-import JSON5 from "json5";
+import { formatJson } from "../../../../utils/tools";
 import { METHODS } from "../../../common/constant";
 import CodeMirror from "../../../common/codeMirror";
 import { postInterface, putInterface } from "../../../../request/interface";
@@ -87,8 +87,8 @@ class Index extends React.Component<Props, State> {
         const projectId = this.state.projectId;
         const formData = {
             ...this.state.interfaceForm,
-            requestParams: this.state.requestParams,
-            requestResponse: this.state.requestResponse
+            requestParams: formatJson(this.state.requestParams),
+            requestResponse: formatJson(this.state.requestResponse)
         };
         const request = formData.id ? putInterface : postInterface;
         request({
@@ -123,11 +123,10 @@ class Index extends React.Component<Props, State> {
 
     // json格式化
     onFormatJson(key: string, e?: any) {
-        e.preventDefault();
+        e && e.preventDefault();
         try {
             let state: any = this.state;
-            let value = JSON5.parse(state[key]);
-            let beautifiedValue = JSON.stringify(value, null, 2);
+            let beautifiedValue = formatJson(state[key]);
             this.setState({
                 interfaceForm: {
                     ...this.state.interfaceForm,
@@ -151,14 +150,14 @@ class Index extends React.Component<Props, State> {
                 rules={interfaceFormRules}
                 labelWidth="120"
             >
-                <Form.Item label="接口名称" prop="label">
+                <Form.Item label="名称" prop="label">
                     <Input
                         value={interfaceForm.label}
                         placeholder="请输入接口名称"
                         onChange={this.onInterfaceChange.bind(this, "label")}
                     />
                 </Form.Item>
-                <Form.Item label="接口路径" prop="requestUrl">
+                <Form.Item label="路径" prop="requestUrl">
                     <Input
                         value={interfaceForm.requestUrl}
                         placeholder="请输入接口路径"
@@ -168,7 +167,7 @@ class Index extends React.Component<Props, State> {
                         )}
                     />
                 </Form.Item>
-                <Form.Item label="接口类型" prop="requestMethod">
+                <Form.Item label="类型" prop="requestMethod">
                     <Select
                         value={interfaceForm.requestMethod}
                         placeholder="接口类型"
@@ -186,7 +185,7 @@ class Index extends React.Component<Props, State> {
                         ))}
                     </Select>
                 </Form.Item>
-                <Form.Item label="接口描述" prop="introduce">
+                <Form.Item label="描述" prop="introduce">
                     <Input
                         type="textarea"
                         value={interfaceForm.introduce}
@@ -201,14 +200,14 @@ class Index extends React.Component<Props, State> {
                         )}
                     />
                 </Form.Item>
-                <Form.Item label="接口版本号" prop="tag">
+                <Form.Item label="版本号" prop="tag">
                     <Input
                         value={interfaceForm.tag}
                         placeholder="请输入接口版本号"
                         onChange={this.onInterfaceChange.bind(this, "tag")}
                     />
                 </Form.Item>
-                <Form.Item label="传入参数" prop="requestParams">
+                <Form.Item label="请求参数" prop="requestParams">
                     <CodeMirror
                         value={interfaceForm.requestParams}
                         onChange={(value: any) => {
@@ -224,7 +223,7 @@ class Index extends React.Component<Props, State> {
                         格式化
                     </Button>
                 </Form.Item>
-                <Form.Item label="返回值" prop="requestResponse">
+                <Form.Item label="响应内容" prop="requestResponse">
                     <CodeMirror
                         value={interfaceForm.requestResponse}
                         onChange={(value: any) => {
