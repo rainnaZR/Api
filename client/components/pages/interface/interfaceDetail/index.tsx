@@ -15,9 +15,30 @@ type Props = RouteComponentProps<PathParamsType> & {
 interface State {}
 
 class Index extends React.Component<Props, State> {
+    $requestParamsCodeMirrorRef: any;
+    $requestResponseCodeMirrorRef: any;
+
     constructor(props: Props) {
         super(props);
         autoBind(this);
+    }
+
+    componentWillReceiveProps(nextProps: Props) {
+        this.onRefreshCM(nextProps.interfaceForm);
+        this.setState({
+            interfaceForm: nextProps.interfaceForm
+        });
+    }
+
+    /**
+     * 更新code mirror内容
+     * **/
+    onRefreshCM(options: any) {
+        const { requestParams, requestResponse } = options;
+        requestParams &&
+            this.$requestParamsCodeMirrorRef.cm.setValue(requestParams);
+        requestResponse &&
+            this.$requestResponseCodeMirrorRef.cm.setValue(requestResponse);
     }
 
     render(): ReactNode {
@@ -85,7 +106,7 @@ class Index extends React.Component<Props, State> {
                             <div className="f-flexr f-mb15" key={index}>
                                 <div className="label">{data.label}：</div>
                                 <div className="content">
-                                    {data.value || "暂无"}
+                                    {data.value || "--"}
                                 </div>
                             </div>
                         );
@@ -97,6 +118,9 @@ class Index extends React.Component<Props, State> {
                             <CodeMirror
                                 value={interfaceForm.requestParams}
                                 options={codeMirrorOptions}
+                                ref={$codeMirrorRef => {
+                                    this.$requestParamsCodeMirrorRef = $codeMirrorRef;
+                                }}
                             />
                         </div>
                     </div>
@@ -107,6 +131,9 @@ class Index extends React.Component<Props, State> {
                             <CodeMirror
                                 value={interfaceForm.requestResponse}
                                 options={codeMirrorOptions}
+                                ref={$codeMirrorRef => {
+                                    this.$requestResponseCodeMirrorRef = $codeMirrorRef;
+                                }}
                             />
                         </div>
                     </div>

@@ -5,9 +5,10 @@ import NavMenu from "../../common/navMenu";
 import SideTree from "./sideTree";
 import EditInterface from "./editInterface";
 import InterfaceDetail from "./interfaceDetail";
+import ModuleDetail from "./moduleDetail";
 import "./index.scss";
 import { Button, Message, MessageBox } from "element-react";
-import { deleteModule } from "../../../request/module";
+import { deleteModule, getModule } from "../../../request/module";
 import { getInterface, deleteInterface } from "../../../request/interface";
 
 type PathParamsType = any;
@@ -20,6 +21,7 @@ interface State {
     mainPageType?: string;
     treeData?: Array<Common.Tree>;
     interfaceForm?: Interface.Form | any;
+    moduleForm?: Module.Form | any;
 }
 
 class Index extends React.Component<Props, State> {
@@ -37,8 +39,13 @@ class Index extends React.Component<Props, State> {
                 label: "",
                 requestUrl: "",
                 requestMethod: "",
-                requestParams: "",
-                requestResponse: ""
+                requestParams: "{}",
+                requestResponse: "{}"
+            },
+            moduleForm: {
+                label: "",
+                introduce: "",
+                apiList: []
             }
         };
     }
@@ -66,7 +73,17 @@ class Index extends React.Component<Props, State> {
     }
 
     // 模块详情
-    onViewModuleDetail(id: string | number) {}
+    onViewModuleDetail(id: string | number) {
+        getModule({
+            id
+        }).then((res: any) => {
+            this.setState({
+                mainTitle: "模块详情",
+                mainPageType: "moduleDetail",
+                moduleForm: res.data
+            });
+        });
+    }
 
     // 新增接口
     onAddInterface(options = {}) {
@@ -148,7 +165,8 @@ class Index extends React.Component<Props, State> {
             mainTitle,
             mainPageType,
             treeData,
-            interfaceForm
+            interfaceForm,
+            moduleForm
         } = this.state;
 
         return (
@@ -209,6 +227,11 @@ class Index extends React.Component<Props, State> {
                                             this.onDeleteInterface
                                         }
                                     />
+                                )}
+
+                                {/* 模块详情页面 */}
+                                {mainPageType === "moduleDetail" && (
+                                    <ModuleDetail moduleForm={moduleForm} />
                                 )}
                             </div>
                         </div>

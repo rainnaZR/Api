@@ -44,7 +44,7 @@ class Index extends React.Component<Props, States> {
         }
         if (onChange) {
             cm.on("change", () => {
-                onChange && onChange(cm.getValue());
+                onChange(cm.getValue());
             });
         }
         this.cm = cm;

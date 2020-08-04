@@ -77,8 +77,7 @@ class Index extends React.Component<Props, State> {
     }
 
     // 查看详情
-    onViewDetail(data?: any, event?: any) {
-        event?.stopPropagation();
+    onViewDetail(data?: any) {
         data.moduleId
             ? this.props.onViewInterfaceDetail(data.id)
             : this.props.onViewModuleDetail(data.id);
@@ -197,9 +196,7 @@ class Index extends React.Component<Props, State> {
     renderContent(nodeModel?: any, data?: any, store?: any) {
         return (
             <span>
-                <span onClick={event => this.onViewDetail(data, event)}>
-                    {data.label}
-                </span>
+                {data.label}
                 <span className="opts" style={{ float: "right" }}>
                     {data.moduleId ? (
                         <span>
@@ -249,8 +246,11 @@ class Index extends React.Component<Props, State> {
     }
 
     onNodeClicked(data?: any, node?: any) {
+        this.onViewDetail(data);
         this.props.history.push(
-            `/interface/${this.props.projectId}/${data.id}`
+            `/interface/${this.props.projectId}/${data.id}?type=${
+                data.moduleId ? "api" : "module"
+            }`
         );
     }
 

@@ -18,11 +18,12 @@ interface State {
     projectId?: string | number;
     interfaceForm?: Interface.Form | any;
     interfaceFormRules?: Interface.FormRules;
-    requestParams?: any;
-    requestResponse?: any;
 }
 
 class Index extends React.Component<Props, State> {
+    $requestParamsCodeMirrorRef: any;
+    $requestResponseCodeMirrorRef: any;
+
     constructor(props: Props) {
         super(props);
         autoBind(this);
@@ -52,19 +53,21 @@ class Index extends React.Component<Props, State> {
                         trigger: "blur"
                     }
                 ]
-            },
-            requestParams: props.interfaceForm.requestParams,
-            requestResponse: props.interfaceForm.requestResponse
+            }
         };
     }
 
     componentWillReceiveProps(nextProps: Props) {
+        this.onRefreshCM(nextProps.interfaceForm);
         this.setState({
             interfaceForm: nextProps.interfaceForm
         });
     }
 
-    // 接口数据变化
+    /**
+     * 接口数据变化
+     * **/
+
     onInterfaceChange(key?: any, value?: any) {
         this.setState({
             interfaceForm: Object.assign(this.state.interfaceForm, {
@@ -73,7 +76,10 @@ class Index extends React.Component<Props, State> {
         });
     }
 
-    // 接口信息提交
+    /**
+     * 接口信息提交
+     * **/
+
     onInterfaceSubmit(e?: any) {
         e.preventDefault();
         const formRef: any = this.refs.interfaceForm;
@@ -82,13 +88,18 @@ class Index extends React.Component<Props, State> {
         });
     }
 
-    // 接口信息提交
+    /**
+     * 接口信息提交
+     * **/
+
     doInterfaceSubmit() {
         const projectId = this.state.projectId;
         const formData = {
             ...this.state.interfaceForm,
-            requestParams: formatJson(this.state.requestParams),
-            requestResponse: formatJson(this.state.requestResponse)
+            requestParams: formatJson(this.state.interfaceForm.requestParams),
+            requestResponse: formatJson(
+                this.state.interfaceForm.requestResponse
+            )
         };
         const request = formData.id ? putInterface : postInterface;
         request({
@@ -99,7 +110,10 @@ class Index extends React.Component<Props, State> {
         });
     }
 
-    // 接口信息提交回调
+    /**
+     * 接口信息提交回调
+     * **/
+
     cbInterfaceSubmit(res: any) {
         let { success, message } = res;
         if (success) {
@@ -116,28 +130,43 @@ class Index extends React.Component<Props, State> {
                     requestResponse: "{}"
                 }
             });
+            this.onRefreshCM({
+                requestParams: "{}",
+                requestResponse: "{}"
+            });
         } else {
             Message.error(message);
         }
     }
 
-    // json格式化
+    /**
+     * json格式化
+     * **/
+
     onFormatJson(key: string, e?: any) {
         e && e.preventDefault();
         try {
-            let state: any = this.state;
-            let beautifiedValue = formatJson(state[key]);
-            this.setState({
-                interfaceForm: {
-                    ...this.state.interfaceForm,
-                    [key]: beautifiedValue
-                },
-                [key]: beautifiedValue
-            });
+            let that: any = this;
+            let ref: any = that[`$${key}CodeMirrorRef`];
+            if (ref) {
+                let beautifiedValue = formatJson(this.state.interfaceForm[key]);
+                ref.cm.setValue(beautifiedValue);
+            }
         } catch (error) {
             Message.error("JSON格式错误！");
             console.error(error);
         }
+    }
+
+    /**
+     * 更新code mirror内容
+     * **/
+    onRefreshCM(options: any) {
+        const { requestParams, requestResponse } = options;
+        requestParams &&
+            this.$requestParamsCodeMirrorRef.cm.setValue(requestParams);
+        requestResponse &&
+            this.$requestResponseCodeMirrorRef.cm.setValue(requestResponse);
     }
 
     render(): ReactNode {
@@ -211,13 +240,14 @@ class Index extends React.Component<Props, State> {
                     <CodeMirror
                         value={interfaceForm.requestParams}
                         onChange={(value: any) => {
-                            this.setState({
-                                requestParams: value
-                            });
+                            this.onInterfaceChange("requestParams", value);
+                        }}
+                        ref={$codeMirrorRef => {
+                            this.$requestParamsCodeMirrorRef = $codeMirrorRef;
                         }}
                     />
                     <Button
-                        className="f-mt15"
+                        className="f-mt10"
                         onClick={e => this.onFormatJson("requestParams", e)}
                     >
                         格式化
@@ -227,13 +257,14 @@ class Index extends React.Component<Props, State> {
                     <CodeMirror
                         value={interfaceForm.requestResponse}
                         onChange={(value: any) => {
-                            this.setState({
-                                requestResponse: value
-                            });
+                            this.onInterfaceChange("requestResponse", value);
+                        }}
+                        ref={$codeMirrorRef => {
+                            this.$requestResponseCodeMirrorRef = $codeMirrorRef;
                         }}
                     />
                     <Button
-                        className="f-mt15"
+                        className="f-mt10"
                         onClick={e => this.onFormatJson("requestResponse", e)}
                     >
                         格式化

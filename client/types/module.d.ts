@@ -3,6 +3,7 @@ declare namespace Module {
         id?: string | number;
         label: string;
         introduce?: string;
+        apiList?: Array<any>;
     }
     interface FormItemRules {
         required: boolean;
