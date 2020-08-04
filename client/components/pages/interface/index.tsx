@@ -23,7 +23,7 @@ interface State {
 }
 
 class Index extends React.Component<Props, State> {
-    treeRef: any;
+    $treeRef: any;
     constructor(props: Props) {
         super(props);
         autoBind(this);
@@ -44,12 +44,12 @@ class Index extends React.Component<Props, State> {
     }
 
     onTreeRef(ref: any) {
-        this.treeRef = ref;
+        this.$treeRef = ref;
     }
 
     // 更新分类
     onGetTreeList() {
-        this.treeRef.onGetTreeList();
+        this.$treeRef.onGetTreeList();
     }
 
     // 接口详情
