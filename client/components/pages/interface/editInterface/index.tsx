@@ -242,7 +242,7 @@ class Index extends React.Component<Props, State> {
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" onClick={this.onInterfaceSubmit}>
-                        确 定
+                        提 交
                     </Button>
                 </Form.Item>
             </Form>

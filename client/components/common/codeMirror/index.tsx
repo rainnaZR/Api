@@ -28,7 +28,7 @@ const Page = (props: Props) => {
             value={props.value}
             options={options}
             onChange={(editor, data, value) => {
-                props.onChange(value);
+                props.onChange && props.onChange(value);
             }}
         />
     );

@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
 import { Button } from "element-react";
+import CodeMirror from "../../../common/codeMirror";
 import "./index.scss";
 
 type PathParamsType = any;
@@ -55,6 +56,9 @@ class Index extends React.Component<Props, State> {
                 value: interfaceForm.updateTime
             }
         ];
+        const codeMirrorOptions = {
+            readOnly: true
+        };
 
         return (
             <div className="m-detail">
@@ -85,21 +89,23 @@ class Index extends React.Component<Props, State> {
                         );
                     })}
                     {/* 请求参数 */}
-                    <div className="f-flexr f-mb15">
+                    <div className="f-flexr f-flex-as f-mb15">
                         <div className="label">请求参数：</div>
-                        <div className="content">
-                            <pre className="body">
-                                {interfaceForm.requestParams}
-                            </pre>
+                        <div className="content f-flex-f1">
+                            <CodeMirror
+                                value={interfaceForm.requestParams}
+                                options={codeMirrorOptions}
+                            />
                         </div>
                     </div>
                     {/* 响应内容 */}
-                    <div className="f-flexr f-mb15">
+                    <div className="f-flexr f-flex-as f-mb15">
                         <div className="label">响应内容：</div>
-                        <div className="content">
-                            <pre className="body">
-                                {interfaceForm.requestResponse}
-                            </pre>
+                        <div className="content f-flex-f1">
+                            <CodeMirror
+                                value={interfaceForm.requestResponse}
+                                options={codeMirrorOptions}
+                            />
                         </div>
                     </div>
                 </div>
