@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
-import { Table, Button } from "element-react";
+import { Table, Button, Tag } from "element-react";
 import "./index.scss";
 
 type PathParamsType = any;
@@ -29,7 +29,7 @@ class Index extends React.Component<Props, State> {
                     width: 180
                 },
                 {
-                    label: "路径",
+                    label: "地址",
                     prop: "requestUrl",
                     width: 180
                 },
@@ -39,7 +39,10 @@ class Index extends React.Component<Props, State> {
                 },
                 {
                     label: "标签",
-                    prop: "tag"
+                    prop: "tag",
+                    render: (data: any, column: any) => {
+                        return data.tag && <Tag type="success">{data.tag}</Tag>;
+                    }
                 },
                 {
                     label: "创建时间",
@@ -55,9 +58,6 @@ class Index extends React.Component<Props, State> {
                             <span>
                                 <Button type="text" size="small">
                                     编辑
-                                </Button>
-                                <Button type="text" size="small">
-                                    删除
                                 </Button>
                             </span>
                         );
@@ -96,7 +96,7 @@ class Index extends React.Component<Props, State> {
                         <div className="content">{moduleForm.introduce}</div>
                     </div>
                 </div>
-                <div className="m-list">
+                <div className="m-list f-curp">
                     <Table
                         columns={columns}
                         data={moduleForm.apiList}

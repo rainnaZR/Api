@@ -1,5 +1,5 @@
 const { query } = require("../index");
-const { sqlUpdate } = require("../../utils/index");
+const { sqlUpdate, dateFormat } = require("../../utils/index");
 const { STATUS } = require("../constants");
 
 //新增
@@ -40,6 +40,11 @@ const getApi = item => {
     const sql =
         "select * from tbl_api_interface where module_id = ? and interface_status != ?";
     return query(sql, [id, STATUS.INVALID]).then(res => {
+        res &&
+            res.map(i => {
+                i.create_time = dateFormat(i.create_time);
+                i.update_time = dateFormat(i.update_time);
+            });
         return {
             id: item.id,
             name: item.name,
