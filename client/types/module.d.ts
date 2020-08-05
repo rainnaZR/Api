@@ -1,7 +1,7 @@
 declare namespace Module {
     interface Form {
         id?: string | number;
-        label: string;
+        name: string;
         introduce?: string;
         apiList?: Array<any>;
     }

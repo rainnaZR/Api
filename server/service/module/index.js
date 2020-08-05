@@ -4,11 +4,11 @@ const { STATUS } = require("../constants");
 
 //新增
 const add = val => {
-    const { label, introduce, projectId } = val;
+    const { name, introduce, projectId } = val;
     const sql =
-        "INSERT INTO tbl_api_module(Id,label,introduce,project_id,create_time,module_status) VALUES(0,?,?,?,now(),1)";
+        "INSERT INTO tbl_api_module(Id,name,introduce,project_id,create_time,module_status) VALUES(0,?,?,?,now(),1)";
 
-    return query(sql, [label, introduce, projectId]).then(res => {
+    return query(sql, [name, introduce, projectId]).then(res => {
         return {
             id: res.insertId
         };
@@ -42,7 +42,7 @@ const getApi = item => {
     return query(sql, [id, STATUS.INVALID]).then(res => {
         return {
             id: item.id,
-            label: item.label,
+            label: item.name,
             children: res
         };
     });
@@ -53,22 +53,27 @@ const detail = val => {
     const { id } = val;
     const sql = "select * from tbl_api_module where id = ?";
     return query(sql, [id]).then(res => {
-        const { id, label, introduce, project_id } = res[0];
-        return {
-            id,
-            label,
-            introduce,
-            projectId: project_id
-        };
+        const { id, name, introduce, project_id } = res[0];
+        return getApi({
+            id
+        }).then(res => {
+            return {
+                id,
+                name,
+                introduce,
+                projectId: project_id,
+                apiList: res.children
+            };
+        });
     });
 };
 
 //更新
 const update = val => {
-    const { id, label, introduce, projectId } = val;
+    const { id, name, introduce, projectId } = val;
     let _sql = "update tbl_api_module set ";
     const { sql, args } = sqlUpdate(
-        { id, label, introduce, project_id: projectId },
+        { id, name, introduce, project_id: projectId },
         _sql
     );
     _sql = sql + "where id = ?";

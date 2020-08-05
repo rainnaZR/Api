@@ -36,14 +36,14 @@ class Index extends React.Component<Props, State> {
             mainPageType: "",
             treeData: [],
             interfaceForm: {
-                label: "",
+                name: "",
                 requestUrl: "",
                 requestMethod: "",
                 requestParams: "{}",
                 requestResponse: "{}"
             },
             moduleForm: {
-                label: "",
+                name: "",
                 introduce: "",
                 apiList: []
             }
@@ -70,6 +70,7 @@ class Index extends React.Component<Props, State> {
                 interfaceForm: res.data
             });
         });
+        this.props.history.push(`/detail/interface/${id}`);
     }
 
     // 模块详情
@@ -83,6 +84,7 @@ class Index extends React.Component<Props, State> {
                 moduleForm: res.data
             });
         });
+        this.props.history.push(`/detail/module/${id}`);
     }
 
     // 新增接口
@@ -231,7 +233,12 @@ class Index extends React.Component<Props, State> {
 
                                 {/* 模块详情页面 */}
                                 {mainPageType === "moduleDetail" && (
-                                    <ModuleDetail moduleForm={moduleForm} />
+                                    <ModuleDetail
+                                        moduleForm={moduleForm}
+                                        onViewModuleDetail={
+                                            this.onViewModuleDetail
+                                        }
+                                    />
                                 )}
                             </div>
                         </div>

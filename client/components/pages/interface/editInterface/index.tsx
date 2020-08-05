@@ -32,7 +32,7 @@ class Index extends React.Component<Props, State> {
             projectId: props.projectId,
             interfaceForm: props.interfaceForm,
             interfaceFormRules: {
-                label: [
+                name: [
                     {
                         required: true,
                         message: "请输入接口名称",
@@ -123,7 +123,7 @@ class Index extends React.Component<Props, State> {
                 interfaceForm: {
                     id: "",
                     moduleId: "",
-                    label: "",
+                    name: "",
                     requestUrl: "",
                     requestMethod: "",
                     requestParams: "{}",
@@ -179,11 +179,11 @@ class Index extends React.Component<Props, State> {
                 rules={interfaceFormRules}
                 labelWidth="120"
             >
-                <Form.Item label="名称" prop="label">
+                <Form.Item label="名称" prop="name">
                     <Input
-                        value={interfaceForm.label}
+                        value={interfaceForm.name}
                         placeholder="请输入接口名称"
-                        onChange={this.onInterfaceChange.bind(this, "label")}
+                        onChange={this.onInterfaceChange.bind(this, "name")}
                     />
                 </Form.Item>
                 <Form.Item label="路径" prop="requestUrl">

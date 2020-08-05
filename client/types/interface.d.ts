@@ -3,7 +3,7 @@ declare namespace Interface {
         id?: string | number;
         moduleId?: string | number;
         projectId?: string | number;
-        label?: string;
+        name?: string;
         introduce?: string;
         tag?: string;
         requestUrl?: string;

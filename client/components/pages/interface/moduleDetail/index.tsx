@@ -2,18 +2,69 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
+import { Table, Button } from "element-react";
 import "./index.scss";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
     moduleForm?: Module.Form | any;
+    onViewModuleDetail?: any;
 };
-interface State {}
+interface State {
+    moduleForm?: Module.Form | any;
+    columns?: Array<any>;
+}
 
 class Index extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         autoBind(this);
+
+        this.state = {
+            moduleForm: props.moduleForm,
+            columns: [
+                {
+                    label: "名称",
+                    prop: "name",
+                    width: 180
+                },
+                {
+                    label: "路径",
+                    prop: "requestUrl",
+                    width: 180
+                },
+                {
+                    label: "类型",
+                    prop: "requestMethod"
+                },
+                {
+                    label: "版本号",
+                    prop: "tag"
+                },
+                {
+                    label: "更新时间",
+                    prop: "updateTime"
+                },
+                {
+                    label: "操作",
+                    prop: "zip",
+                    fixed: "right",
+                    width: 100,
+                    render: () => {
+                        return (
+                            <span>
+                                <Button type="text" size="small">
+                                    编辑
+                                </Button>
+                                <Button type="text" size="small">
+                                    删除
+                                </Button>
+                            </span>
+                        );
+                    }
+                }
+            ]
+        };
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -22,8 +73,16 @@ class Index extends React.Component<Props, State> {
         });
     }
 
+    /**
+     * 操作行点击
+     * **/
+    onRowClick(row?: any, event?: any) {
+        event?.preventDefault();
+        this.props.onViewModuleDetail(row.id);
+    }
+
     render(): ReactNode {
-        const moduleForm = this.props.moduleForm;
+        const { moduleForm, columns } = this.state;
 
         return (
             <div className="m-detail">
@@ -36,6 +95,13 @@ class Index extends React.Component<Props, State> {
                         <div className="label">描述：</div>
                         <div className="content">{moduleForm.introduce}</div>
                     </div>
+                </div>
+                <div className="m-list">
+                    <Table
+                        columns={columns}
+                        data={moduleForm.apiList}
+                        onRowClick={this.onRowClick}
+                    />
                 </div>
             </div>
         );

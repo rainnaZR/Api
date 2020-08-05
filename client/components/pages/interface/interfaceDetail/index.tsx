@@ -50,7 +50,7 @@ class Index extends React.Component<Props, State> {
         const dataList = [
             {
                 label: "名称",
-                value: interfaceForm.label
+                value: interfaceForm.name
             },
             {
                 label: "路径",

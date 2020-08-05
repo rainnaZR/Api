@@ -45,11 +45,11 @@ class Index extends React.Component<Props, State> {
             modalShow: false,
             modelTitle: "新增模块",
             moduleForm: {
-                label: "",
+                name: "",
                 introduce: ""
             },
             moduleFormRules: {
-                label: [
+                name: [
                     {
                         required: true,
                         message: "请输入模块名称",
@@ -92,7 +92,7 @@ class Index extends React.Component<Props, State> {
             modelTitle: "新增模块",
             moduleForm: {
                 id: "",
-                label: "",
+                name: "",
                 introduce: ""
             }
         });
@@ -196,7 +196,7 @@ class Index extends React.Component<Props, State> {
     renderContent(nodeModel?: any, data?: any, store?: any) {
         return (
             <span>
-                {data.label}
+                {data.name}
                 <span className="opts" style={{ float: "right" }}>
                     {data.moduleId ? (
                         <span>
@@ -247,11 +247,6 @@ class Index extends React.Component<Props, State> {
 
     onNodeClicked(data?: any, node?: any) {
         this.onViewDetail(data);
-        this.props.history.push(
-            `/interface/${this.props.projectId}/${data.id}?type=${
-                data.moduleId ? "api" : "module"
-            }`
-        );
     }
 
     render(): ReactNode {
@@ -301,13 +296,13 @@ class Index extends React.Component<Props, State> {
                             rules={moduleFormRules}
                             labelWidth="120"
                         >
-                            <Form.Item label="模块名称" prop="label">
+                            <Form.Item label="模块名称" prop="name">
                                 <Input
-                                    value={moduleForm.label}
+                                    value={moduleForm.name}
                                     placeholder="请输入模块名称"
                                     onChange={this.onModuleChange.bind(
                                         this,
-                                        "label"
+                                        "name"
                                     )}
                                 ></Input>
                             </Form.Item>
