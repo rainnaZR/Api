@@ -38,12 +38,12 @@ class Index extends React.Component<Props, State> {
                     prop: "requestMethod"
                 },
                 {
-                    label: "版本号",
+                    label: "标签",
                     prop: "tag"
                 },
                 {
-                    label: "更新时间",
-                    prop: "updateTime"
+                    label: "创建时间",
+                    prop: "createTime"
                 },
                 {
                     label: "操作",

@@ -94,7 +94,11 @@ const update = val => {
     );
     _sql = sql + "where id = ?";
 
-    return query(_sql, [...args, id]);
+    return query(_sql, [...args, id]).then(res => {
+        return {
+            id
+        };
+    });
 };
 
 //删除

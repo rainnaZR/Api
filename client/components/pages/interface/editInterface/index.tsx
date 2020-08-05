@@ -13,6 +13,7 @@ type Props = RouteComponentProps<PathParamsType> & {
     projectId?: string | number;
     interfaceForm?: Interface.Form | any;
     onGetTreeList: any;
+    onViewInterfaceDetail: any;
 };
 interface State {
     projectId?: string | number;
@@ -115,25 +116,11 @@ class Index extends React.Component<Props, State> {
      * **/
 
     cbInterfaceSubmit(res: any) {
-        let { success, message } = res;
+        let { success, message, data } = res;
         if (success) {
             Message.success(message);
             this.props.onGetTreeList();
-            this.setState({
-                interfaceForm: {
-                    id: "",
-                    moduleId: "",
-                    name: "",
-                    requestUrl: "",
-                    requestMethod: "",
-                    requestParams: "{}",
-                    requestResponse: "{}"
-                }
-            });
-            this.onRefreshCM({
-                requestParams: "{}",
-                requestResponse: "{}"
-            });
+            this.props.onViewInterfaceDetail(data?.id);
         } else {
             Message.error(message);
         }

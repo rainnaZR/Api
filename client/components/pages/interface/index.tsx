@@ -60,7 +60,7 @@ class Index extends React.Component<Props, State> {
     }
 
     // 接口详情
-    onViewInterfaceDetail(id: string | number) {
+    onViewInterfaceDetail(id?: string | number) {
         getInterface({
             id
         }).then((res: any) => {
@@ -76,7 +76,7 @@ class Index extends React.Component<Props, State> {
     }
 
     // 模块详情
-    onViewModuleDetail(id: string | number) {
+    onViewModuleDetail(id?: string | number) {
         getModule({
             id
         }).then((res: any) => {
@@ -157,6 +157,7 @@ class Index extends React.Component<Props, State> {
             if (success) {
                 Message.success(message);
                 this.onGetTreeList();
+                this.onViewModuleDetail(this.state.interfaceForm?.moduleId);
             } else {
                 Message.error(message);
             }
@@ -212,6 +213,9 @@ class Index extends React.Component<Props, State> {
                                         projectId={projectId}
                                         interfaceForm={interfaceForm}
                                         onGetTreeList={this.onGetTreeList}
+                                        onViewInterfaceDetail={
+                                            this.onViewInterfaceDetail
+                                        }
                                     />
                                 )}
 
@@ -221,6 +225,9 @@ class Index extends React.Component<Props, State> {
                                         projectId={projectId}
                                         interfaceForm={interfaceForm}
                                         onGetTreeList={this.onGetTreeList}
+                                        onViewInterfaceDetail={
+                                            this.onViewInterfaceDetail
+                                        }
                                     />
                                 )}
 

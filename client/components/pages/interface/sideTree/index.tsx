@@ -98,30 +98,6 @@ class Index extends React.Component<Props, State> {
         });
     }
 
-    // 编辑接口
-    onEditInterface(id: string | number, event?: any) {
-        event?.stopPropagation();
-        this.props.onEditInterface(id);
-    }
-
-    // 删除接口
-    onDeleteInterface(id: string | number, event?: any) {
-        event?.stopPropagation();
-        this.props.onDeleteInterface(id);
-    }
-
-    // 新增接口
-    onAddInterface(moduleId: string | number, event?: any) {
-        event?.stopPropagation();
-        this.props.onAddInterface({
-            interfaceForm: {
-                moduleId,
-                requestParams: "{}",
-                requestResponse: "{}"
-            }
-        });
-    }
-
     // 编辑模块
     onEditModule(id: string | number, event?: any) {
         event?.stopPropagation();
@@ -196,23 +172,30 @@ class Index extends React.Component<Props, State> {
     renderContent(nodeModel?: any, data?: any, store?: any) {
         return (
             <span>
-                {data.name}
+                <span
+                    className="treename"
+                    onClick={this.onViewDetail.bind(this, data)}
+                >
+                    {data.name}
+                </span>
                 <span className="opts" style={{ float: "right" }}>
                     {data.moduleId ? (
                         <span>
                             <i
                                 title="编辑接口"
                                 className="el-icon-edit s-fc0 f-mr10"
-                                onClick={event =>
-                                    this.onEditInterface(data.id, event)
-                                }
+                                onClick={this.props.onEditInterface.bind(
+                                    this,
+                                    data.id
+                                )}
                             ></i>
                             <i
                                 title="删除接口"
                                 className="el-icon-delete s-fc0 f-mr10"
-                                onClick={event =>
-                                    this.onDeleteInterface(data.id, event)
-                                }
+                                onClick={this.props.onDeleteInterface.bind(
+                                    this,
+                                    data.id
+                                )}
                             ></i>
                         </span>
                     ) : (
@@ -220,9 +203,13 @@ class Index extends React.Component<Props, State> {
                             <i
                                 title="新增接口"
                                 className="el-icon-plus s-fc0 f-mr10"
-                                onClick={event =>
-                                    this.onAddInterface(data.id, event)
-                                }
+                                onClick={this.props.onAddInterface.bind(this, {
+                                    interfaceForm: {
+                                        moduleId: data.id,
+                                        requestParams: "{}",
+                                        requestResponse: "{}"
+                                    }
+                                })}
                             ></i>
                             <i
                                 title="编辑模块"
@@ -243,10 +230,6 @@ class Index extends React.Component<Props, State> {
                 </span>
             </span>
         );
-    }
-
-    onNodeClicked(data?: any, node?: any) {
-        this.onViewDetail(data);
     }
 
     render(): ReactNode {
@@ -280,9 +263,7 @@ class Index extends React.Component<Props, State> {
                     defaultExpandAll={true}
                     expandOnClickNode={false}
                     highlightCurrent={true}
-                    accordion={true}
                     renderContent={(...args) => this.renderContent(...args)}
-                    onNodeClicked={(...args) => this.onNodeClicked(...args)}
                 />
                 {/* 模块弹窗 */}
                 <Dialog
