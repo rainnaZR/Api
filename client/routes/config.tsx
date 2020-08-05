@@ -19,9 +19,9 @@ const routes: RouteMenu[] = [
         component: Project
     },
     {
-        id: "interface",
-        name: "接口",
-        path: "/interface/:projectId",
+        id: "detail",
+        name: "接口详情",
+        path: "/detail/:projectId",
         component: Interface
     },
     {

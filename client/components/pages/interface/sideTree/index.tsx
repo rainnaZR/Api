@@ -40,7 +40,7 @@ class Index extends React.Component<Props, State> {
             treeData: props.treeData,
             treeOptions: {
                 children: "children",
-                label: "label"
+                name: "name"
             },
             modalShow: false,
             modelTitle: "新增模块",
@@ -280,6 +280,7 @@ class Index extends React.Component<Props, State> {
                     defaultExpandAll={true}
                     expandOnClickNode={false}
                     highlightCurrent={true}
+                    accordion={true}
                     renderContent={(...args) => this.renderContent(...args)}
                     onNodeClicked={(...args) => this.onNodeClicked(...args)}
                 />

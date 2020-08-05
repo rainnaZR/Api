@@ -188,7 +188,7 @@ class Index extends React.Component<Props, State> {
     }
 
     onClickItem(id: any) {
-        this.props.history.push(`/interface/${id}`);
+        this.props.history.push(`/detail/${id}`);
     }
 
     getItemTemplate(item: ProjectItem, index: number) {

@@ -70,7 +70,9 @@ class Index extends React.Component<Props, State> {
                 interfaceForm: res.data
             });
         });
-        this.props.history.push(`/detail/interface/${id}`);
+        this.props.history.push(
+            `/detail/${this.state.projectId}/${id}?type=interface`
+        );
     }
 
     // 模块详情
@@ -84,7 +86,9 @@ class Index extends React.Component<Props, State> {
                 moduleForm: res.data
             });
         });
-        this.props.history.push(`/detail/module/${id}`);
+        this.props.history.push(
+            `/detail/${this.state.projectId}/${id}?type=module`
+        );
     }
 
     // 新增接口

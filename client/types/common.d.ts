@@ -1,11 +1,11 @@
 declare namespace Common {
     interface Tree {
         id: number;
-        label: string;
+        name: string;
         children?: Array<Category>;
     }
     interface TreeOptions {
-        label?: string;
+        name?: string;
         children?: string;
     }
 }

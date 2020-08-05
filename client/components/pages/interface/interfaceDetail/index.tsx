@@ -49,31 +49,31 @@ class Index extends React.Component<Props, State> {
         } = this.props;
         const dataList = [
             {
-                label: "名称",
+                name: "名称",
                 value: interfaceForm.name
             },
             {
-                label: "路径",
+                name: "路径",
                 value: interfaceForm.requestUrl
             },
             {
-                label: "类型",
+                name: "类型",
                 value: interfaceForm.requestMethod
             },
             {
-                label: "描述",
+                name: "描述",
                 value: interfaceForm.introduce
             },
             {
-                label: "版本号",
+                name: "版本号",
                 value: interfaceForm.tag
             },
             {
-                label: "创建时间",
+                name: "创建时间",
                 value: interfaceForm.createTime
             },
             {
-                label: "更新时间",
+                name: "更新时间",
                 value: interfaceForm.updateTime
             }
         ];
@@ -104,7 +104,7 @@ class Index extends React.Component<Props, State> {
                     {dataList.map((data, index) => {
                         return (
                             <div className="f-flexr f-mb15" key={index}>
-                                <div className="label">{data.label}：</div>
+                                <div className="label">{data.name}：</div>
                                 <div className="content">
                                     {data.value || "--"}
                                 </div>

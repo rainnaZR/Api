@@ -42,7 +42,7 @@ const getApi = item => {
     return query(sql, [id, STATUS.INVALID]).then(res => {
         return {
             id: item.id,
-            label: item.name,
+            name: item.name,
             children: res
         };
     });

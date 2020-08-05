@@ -89,7 +89,7 @@ class Index extends React.Component<Props, State> {
                 <div className="m-list">
                     <div className="f-flexr f-mb15">
                         <div className="label">名称：</div>
-                        <div className="content">{moduleForm.label}</div>
+                        <div className="content">{moduleForm.name}</div>
                     </div>
                     <div className="f-flexr f-mb15">
                         <div className="label">描述：</div>
