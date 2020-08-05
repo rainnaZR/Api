@@ -239,8 +239,8 @@ class Index extends React.Component<Props, State> {
                                 {mainPageType === "moduleDetail" && (
                                     <ModuleDetail
                                         moduleForm={moduleForm}
-                                        onViewModuleDetail={
-                                            this.onViewModuleDetail
+                                        onViewInterfaceDetail={
+                                            this.onViewInterfaceDetail
                                         }
                                     />
                                 )}

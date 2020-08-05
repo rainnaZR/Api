@@ -8,7 +8,7 @@ import "./index.scss";
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
     moduleForm?: Module.Form | any;
-    onViewModuleDetail?: any;
+    onViewInterfaceDetail?: any;
 };
 interface State {
     moduleForm?: Module.Form | any;
@@ -78,7 +78,7 @@ class Index extends React.Component<Props, State> {
      * **/
     onRowClick(row?: any, event?: any) {
         event?.preventDefault();
-        this.props.onViewModuleDetail(row.id);
+        this.props.onViewInterfaceDetail(row.id);
     }
 
     render(): ReactNode {
