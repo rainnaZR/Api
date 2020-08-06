@@ -14,6 +14,7 @@ type Props = RouteComponentProps<PathParamsType> & {
     interfaceForm?: Interface.Form | any;
     onGetTreeList: any;
     onViewInterfaceDetail: any;
+    onViewModuleDetail: any;
 };
 interface State {
     projectId?: string | number;
@@ -146,8 +147,20 @@ class Index extends React.Component<Props, State> {
     }
 
     /**
+     * 提交取消
+     *  **/
+
+    onInterfaceCancel(e?: any) {
+        e.preventDefault();
+        this.state.interfaceForm.id
+            ? this.props.onViewInterfaceDetail(this.state.interfaceForm.id)
+            : this.props.onViewModuleDetail(this.state.interfaceForm.moduleId);
+    }
+
+    /**
      * 更新code mirror内容
      * **/
+
     onRefreshCM(options: any) {
         const { requestParams, requestResponse } = options;
         requestParams &&
@@ -260,6 +273,9 @@ class Index extends React.Component<Props, State> {
                 <Form.Item>
                     <Button type="primary" onClick={this.onInterfaceSubmit}>
                         提 交
+                    </Button>
+                    <Button type="warning" onClick={this.onInterfaceCancel}>
+                        取 消
                     </Button>
                 </Form.Item>
             </Form>

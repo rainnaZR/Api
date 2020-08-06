@@ -216,6 +216,9 @@ class Index extends React.Component<Props, State> {
                                         onViewInterfaceDetail={
                                             this.onViewInterfaceDetail
                                         }
+                                        onViewModuleDetail={
+                                            this.onViewModuleDetail
+                                        }
                                     />
                                 )}
 
@@ -227,6 +230,9 @@ class Index extends React.Component<Props, State> {
                                         onGetTreeList={this.onGetTreeList}
                                         onViewInterfaceDetail={
                                             this.onViewInterfaceDetail
+                                        }
+                                        onViewModuleDetail={
+                                            this.onViewModuleDetail
                                         }
                                     />
                                 )}
