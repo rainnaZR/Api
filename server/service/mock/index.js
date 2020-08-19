@@ -10,7 +10,7 @@ const detail = val => {
 
     return query(sql, [Number(projectId), `/${url}`, STATUS.INVALID]).then(
         res => {
-            return res && res[0];
+            return res && res[0] && JSON.parse(res[0].request_response);
         }
     );
 };
