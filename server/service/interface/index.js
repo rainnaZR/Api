@@ -16,7 +16,7 @@ const add = val => {
         requestResponse
     } = val;
     const sql =
-        "INSERT INTO tbl_api_interface(Id, project_id, module_id, name, introduce, tag, request_url, request_method, request_params, request_response, create_time, interface_status) VALUES(0,?,?,?,?,?,?,?,?,?,now(),1)";
+        "INSERT INTO tbl_api_interface(Id, project_id, module_id, name, introduce, tag, request_url, request_method, request_params, request_response, create_time, interface_status, business_status) VALUES(0,?,?,?,?,?,?,?,?,?,now(),1,1)";
 
     if (!projectId) {
         return new Promise((resolve, reject) => {
@@ -101,6 +101,13 @@ const update = val => {
     });
 };
 
+// 接口完成
+const setStatus = val => {
+    const { id, businessStatus } = val;
+    const sql = "update tbl_api_interface set business_status = ? where id = ?";
+    return query(sql, [businessStatus, id]).then(res => id);
+};
+
 //删除
 const del = val => {
     const { id } = val;
@@ -128,6 +135,7 @@ module.exports = {
     add,
     detail,
     update,
+    setStatus,
     del
     // list
 };

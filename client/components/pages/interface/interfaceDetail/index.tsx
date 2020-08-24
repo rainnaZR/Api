@@ -9,6 +9,7 @@ import "./index.scss";
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
     interfaceForm?: Interface.Form | any;
+    onSetInterfaceStatus: any;
     onEditInterface: any;
     onDeleteInterface: any;
 };
@@ -44,6 +45,7 @@ class Index extends React.Component<Props, State> {
     render(): ReactNode {
         const {
             interfaceForm,
+            onSetInterfaceStatus,
             onEditInterface,
             onDeleteInterface
         } = this.props;
@@ -86,6 +88,12 @@ class Index extends React.Component<Props, State> {
         return (
             <div className="m-detail">
                 <div className="m-topbar f-tar f-mb10">
+                    <Button
+                        type="warning"
+                        onClick={() => onSetInterfaceStatus(interfaceForm.id)}
+                    >
+                        完成
+                    </Button>
                     <Button
                         type="primary"
                         onClick={() => onEditInterface(interfaceForm.id)}

@@ -15,3 +15,7 @@ export const getInterface = (param?: any) =>
 // 删除接口
 export const deleteInterface = (param?: any) =>
     request("delete", `/interface/${param.id}`, param);
+
+// 修改接口状态
+export const putInterfaceStatus = (param?: any) =>
+    request("put", `/interface/status/${param.id}`, param);

@@ -17,6 +17,11 @@ module.exports = [
         controller: interfaceController.update
     },
     {
+        method: "put",
+        path: "/interface/status/:id",
+        controller: interfaceController.setStatus
+    },
+    {
         method: "delete",
         path: "/interface/:id",
         controller: interfaceController.del

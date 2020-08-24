@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
 import { Button, Form, Input, Select, Message } from "element-react";
 import { formatJson } from "../../../../utils/tools";
-import { METHODS } from "../../../common/constant";
+import { METHODS } from "../../../common/constants";
 import CodeMirror from "../../../common/codeMirror";
 import { postInterface, putInterface } from "../../../../request/interface";
 

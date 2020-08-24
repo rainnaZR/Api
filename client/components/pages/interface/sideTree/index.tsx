@@ -2,13 +2,17 @@
 import React, { ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import autoBind from "class-autobind";
-import { Tree, Button, Dialog, Form, Input, Message } from "element-react";
+import { Tree, Button, Dialog, Form, Input, Message, Tag } from "element-react";
 import {
     getModuleList,
     getModule,
     putModule,
     postModule
 } from "../../../../request/module";
+import {
+    BUSINESS_STATUS,
+    BUSINESS_STATUS_DESC
+} from "../../../common/constants";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
@@ -170,12 +174,19 @@ class Index extends React.Component<Props, State> {
     }
 
     renderContent(nodeModel?: any, data?: any, store?: any) {
+        let statusMap: any = BUSINESS_STATUS_DESC;
+
         return (
             <span>
                 <span
                     className="treename"
                     onClick={this.onViewDetail.bind(this, data)}
                 >
+                    {data.businessStatus == BUSINESS_STATUS.FINISHED && (
+                        <Tag type="danger" className="f-mr5">
+                            {statusMap[data.businessStatus]}
+                        </Tag>
+                    )}
                     {data.name}
                 </span>
                 <span className="opts" style={{ float: "right" }}>

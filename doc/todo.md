@@ -22,6 +22,8 @@ todolist:
 
 ### json 支持注释
 
+### 接口的状态需要细化
+
 donelist:
 
 ### 【完成】mock 数据移除

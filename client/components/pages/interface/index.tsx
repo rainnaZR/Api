@@ -9,7 +9,12 @@ import ModuleDetail from "./moduleDetail";
 import "./index.scss";
 import { Button, Message, MessageBox } from "element-react";
 import { deleteModule, getModule } from "../../../request/module";
-import { getInterface, deleteInterface } from "../../../request/interface";
+import {
+    getInterface,
+    deleteInterface,
+    putInterfaceStatus
+} from "../../../request/interface";
+import { BUSINESS_STATUS } from "../../common/constants";
 
 type PathParamsType = any;
 type Props = RouteComponentProps<PathParamsType> & {
@@ -110,6 +115,14 @@ class Index extends React.Component<Props, State> {
                 mainPageType: "editInterface",
                 interfaceForm: res.data
             });
+        });
+    }
+
+    // 修改接口状态
+    onSetInterfaceStatus(id: string | number) {
+        putInterfaceStatus({
+            id,
+            businessStatus: BUSINESS_STATUS.FINISHED
         });
     }
 
@@ -241,6 +254,9 @@ class Index extends React.Component<Props, State> {
                                 {mainPageType === "interfaceDetail" && (
                                     <InterfaceDetail
                                         interfaceForm={interfaceForm}
+                                        onSetInterfaceStatus={
+                                            this.onSetInterfaceStatus
+                                        }
                                         onEditInterface={this.onEditInterface}
                                         onDeleteInterface={
                                             this.onDeleteInterface
